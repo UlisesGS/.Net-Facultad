@@ -1,0 +1,224 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\CentroEventos.UI.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj",
+        "projectName": "CentroEventos.Aplicacion",
+        "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj",
+        "packagesPath": "C:\\Users\\ulise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ulise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\CentroEventos.Repositorios.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\CentroEventos.Repositorios.csproj",
+        "projectName": "CentroEventos.Repositorios",
+        "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\CentroEventos.Repositorios.csproj",
+        "packagesPath": "C:\\Users\\ulise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ulise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj": {
+                "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DotNetEnv": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\CentroEventos.UI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\CentroEventos.UI.csproj",
+        "projectName": "CentroEventos.UI",
+        "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\CentroEventos.UI.csproj",
+        "packagesPath": "C:\\Users\\ulise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ulise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj": {
+                "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Aplicacion\\CentroEventos.Aplicacion.csproj"
+              },
+              "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\CentroEventos.Repositorios.csproj": {
+                "projectPath": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.Repositorios\\CentroEventos.Repositorios.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
