@@ -22,20 +22,48 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Layout/EmptyLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRW1wdHlMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Crear/PersonaCrear.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhclxQZXJzb25hQ3JlYXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Listar/EventoListar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YXJcRXZlbnRvTGlzdGFyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Listar/PersonaListar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YXJcUGVyc29uYUxpc3Rhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Listar/ReservaListar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YXJcUmVzZXJ2YUxpc3Rhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Listar/UsuarioListar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YXJcVXN1YXJpb0xpc3Rhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Pages/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3Rlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Routes.razor]
@@ -45,11 +73,3 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Layout/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-uopeu9fc6a
-
-[C:/Users/ulise/OneDrive/Escritorio/Facu/Flores_Gadea_Trabajo1/Flores_Gadea_Trabajo1/CentroEventos/CentroEventos.UI/Components/Layout/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-fpokdk2a72

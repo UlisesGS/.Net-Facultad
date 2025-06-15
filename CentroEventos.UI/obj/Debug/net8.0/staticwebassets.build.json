@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RohUtfs3WpDWILiGzkbupWoH5EQBSfdvnJWr3KsX2Hg=",
+  "Hash": "D9F/W9ZZw9gxJM2Y0whkbhMKLDuWjKIF3HXUmebi3zk=",
   "Source": "CentroEventos.UI",
   "BasePath": "_content/CentroEventos.UI",
   "Mode": "Default",
@@ -16,44 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\CentroEventos.UI.styles.css",
-      "SourceId": "CentroEventos.UI",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
-      "BasePath": "_content/CentroEventos.UI",
-      "RelativePath": "CentroEventos.UI.styles.css",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ApplicationBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\CentroEventos.UI.styles.css"
-    },
-    {
-      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\CentroEventos.UI.bundle.scp.css",
-      "SourceId": "CentroEventos.UI",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
-      "BasePath": "_content/CentroEventos.UI",
-      "RelativePath": "CentroEventos.UI.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\CentroEventos.UI.bundle.scp.css"
-    },
     {
       "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\wwwroot\\app.css",
       "SourceId": "CentroEventos.UI",
@@ -91,25 +53,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
-    },
-    {
-      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\wwwroot\\bootstrap\\bootstrap.min.css.map",
-      "SourceId": "CentroEventos.UI",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\wwwroot\\",
-      "BasePath": "_content/CentroEventos.UI",
-      "RelativePath": "bootstrap/bootstrap.min.css.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
       "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\CentroEventos\\CentroEventos.UI\\wwwroot\\favicon.png",

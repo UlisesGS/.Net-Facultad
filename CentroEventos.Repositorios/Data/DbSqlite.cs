@@ -8,8 +8,6 @@ public class DbSqlite
     {
       using var context = new DataContext();
 
-      context.Database.EnsureDeleted();
-
       if (context.Database.EnsureCreated())
       {
         var connection = context.Database.GetDbConnection();
@@ -17,9 +15,11 @@ public class DbSqlite
 
         using (var command = connection.CreateCommand())
         {
-            command.CommandText = "PRAGMA journal_mode=DELETE;";
-            command.ExecuteNonQuery();
+          command.CommandText = "PRAGMA journal_mode=DELETE;";
+          command.ExecuteNonQuery();
         }
-  }
+
+        Console.WriteLine("Base de datos creada y modo journal configurado.");
+      }
     }
 }
