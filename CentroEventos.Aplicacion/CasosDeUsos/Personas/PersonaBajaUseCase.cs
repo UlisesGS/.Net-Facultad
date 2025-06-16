@@ -14,7 +14,7 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
         public void Ejecutar(int idPersona, int idUsuario){
 
 
-            if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioBaja))
+            if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.PersonaBaja))
             {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }

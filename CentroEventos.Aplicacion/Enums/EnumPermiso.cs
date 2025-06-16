@@ -8,8 +8,13 @@
         ReservaAlta,
         ReservaModificacion,
         ReservaBaja,
+        PersonaAlta,
+        PersonaModificacion,
+        PersonaBaja,
         UsuarioAlta,
         UsuarioModificacion,
-        UsuarioBaja
+        UsuarioBaja,
+        UsuarioListar,
+        UsuarioOtorgarPermiso
     }
 }

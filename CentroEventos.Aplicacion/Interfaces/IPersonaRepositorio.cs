@@ -6,7 +6,7 @@ namespace CentroEventos.Aplicacion.Interfaces
     {
         public Boolean ExistsById(int id);
 
-        public Boolean ExistsByDNI(int dni); // POR AHORA LO DEJAMOS CON ID DE PERSONA PARA BUSCAR
+        public Boolean ExistsByDNI(int dni); 
 
         public Boolean ExistsByEmail(string email);
 
