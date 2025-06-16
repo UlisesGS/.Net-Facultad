@@ -1,0 +1,97 @@
+@page "/persona-crear"
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@using CentroEventos.Aplicacion.Entidades
+
+<div class="d-flex justify-content-center align-items-start w-100" style="min-height: calc(100vh - 4rem);">
+    <div class="formulario-wrapper">
+        <form @onsubmit="HandleSubmit" class="p-0 formulario-con-borde text-white">
+            
+            <!-- Título con fondo propio -->
+            <div class="form-header p-3 rounded-top">
+                <h1 class="text-center m-0">Crear Persona</h1>
+            </div>
+
+            <div class="p-4">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <InputText id="nombre" class="form-control borde-personalizado text-dark" @bind-Value="persona.Nombre" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <InputText id="apellido" class="form-control borde-personalizado text-dark" @bind-Value="persona.Apellido" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <InputText id="email" type="email" class="form-control borde-personalizado text-dark" @bind-Value="persona.Email" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <InputNumber id="dni" class="form-control borde-personalizado text-dark" @bind-Value="persona.DNI" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <InputNumber id="telefono" class="form-control borde-personalizado text-dark" @bind-Value="persona.Telefono" />
+                </div>
+            </div>
+
+            <!-- Footer de botones con fondo distinto -->
+            <div class="form-footer bg-footer d-flex gap-2 justify-content-end p-3 rounded-bottom">
+                <button type="submit" class="btn btn-success">Aceptar</button>
+                <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+   .formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29 ;
+    border-radius: 12px;
+}
+
+/* Header del formulario */
+.form-header {
+    background-color: #478689;
+}
+
+/* Footer de botones */
+.bg-footer {
+    background-color: #478689;
+}
+</style>
+
+
+@code {
+    Persona persona = new Persona();
+    private void Cancelar()
+    {
+        Navigation.NavigateTo("/persona-listar");
+    }
+    private Task HandleSubmit()
+    {
+
+        return Task.CompletedTask;
+    }
+}

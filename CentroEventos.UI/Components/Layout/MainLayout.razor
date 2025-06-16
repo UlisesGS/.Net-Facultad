@@ -1,23 +1,67 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<style>
+.sidebar {
+    width: 250px; /* Aumentado el ancho */
+    height: 100vh; /* Altura completa */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, #0d1b2a, #1b263b);
+    color: white;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    padding-top: 1rem;
+}
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+.sidebar .nav-link {
+    color: white;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s;
+    border-radius: 4px;
+}
 
-        <article class="content px-4">
-            @Body
-        </article>
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: #1f4068;
+    color: white;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1c2a29, #478689);
+    color: white;
+    z-index: 1000;
+    padding-top: 1rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    width: calc(100% - 250px); /* Esto es clave */
+}
+
+.app-layout {
+    display: flex;
+}
+</style>
+
+
+<div class="app-layout">
+    <NavMenu />
+
+    <main class="main-content">
+        @Body
     </main>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+<div id="blazor-error-ui" class="position-fixed top-0 end-0 bg-danger text-white p-2 m-2 rounded shadow">
+    para algo lo vamos a usar
+    <a href="" class="text-white text-decoration-underline">Reload</a>
+    <a class="ms-3 text-white fw-bold" style="cursor: pointer;">🗙</a>
 </div>

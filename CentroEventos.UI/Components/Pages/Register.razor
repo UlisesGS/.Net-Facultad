@@ -1,0 +1,38 @@
+@page "/Registro"
+@attribute [Layout(typeof(EmptyLayout))]
+@inject NavigationManager Navigation
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4">Registrarse</h3>
+
+        <form>
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="username" placeholder="Ingrese su nombre de usuario" />
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono" placeholder="Ingrese su número de teléfono" />
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo" />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        </form>
+
+        <div class="text-center mt-3">
+            ¿Ya tenés cuenta?
+            <a href="/">Iniciar sesión</a>
+        </div>
+    </div>
+</div>

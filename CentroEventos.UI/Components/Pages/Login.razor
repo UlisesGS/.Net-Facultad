@@ -1,0 +1,30 @@
+@page "/"
+@attribute [Layout(typeof(EmptyLayout))]
+@inject NavigationManager Navigation
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4">Iniciar Sesión</h3>
+
+        <form>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo" />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+
+        <div class="text-center mt-3">
+            ¿No tenés cuenta?
+            <a href="/Registro">Registrate</a>
+        </div>
+    </div>
+</div>
+
+
