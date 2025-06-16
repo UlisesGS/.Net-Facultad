@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CentroEventos.Aplicacion.Entidades;
+using CentroEventos.Aplicacion;
 
 namespace CentroEventos.Repositorios.Data
 {
@@ -16,6 +17,7 @@ namespace CentroEventos.Repositorios.Data
         public DbSet<Persona> Personas { get; set; }
         public DbSet<EventoDeportivo> EventosDeportivos { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

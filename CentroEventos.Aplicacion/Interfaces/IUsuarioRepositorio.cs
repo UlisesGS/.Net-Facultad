@@ -6,13 +6,11 @@ public interface IUsuarioRepositorio
 {
     public Boolean ExistsByEmail(string email);
 
-    public void Agregar(Usuario usuario);
+    public Usuario Agregar(Usuario usuario);
 
-    public void Eliminar(int id);
+    public void Eliminar(Usuario usuario);
 
     public void Modificar(Usuario usuario);
-
-    public bool ExistsById(int id);
 
     public Usuario? BuscarPorId(int id);
 

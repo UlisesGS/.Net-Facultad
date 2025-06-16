@@ -37,11 +37,11 @@ public class UsuarioValidador
                 return false;
             }
 
-        if (_repoUsuario.ExistsByEmail(usuario.Email))
-        {
-            mensajeError = "ERROR - Email ya registrado.";
-            return false;   
-        }
+            if (_repoUsuario.ExistsByEmail(usuario.Email))
+            {
+                mensajeError = "ERROR - Email ya registrado.";
+                return false;   
+            }
 
             return true;
         }

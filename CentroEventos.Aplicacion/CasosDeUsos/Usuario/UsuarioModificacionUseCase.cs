@@ -19,24 +19,25 @@ namespace CentroEventos.Aplicacion
 
             var usuarioAux = _repositorioUsuario.BuscarPorId(usuario.Id) ?? throw new EntidadNotFoundException("ERROR - El usuario no existe.");
 
-            if (string.IsNullOrWhiteSpace(usuario.Password))
+            if (!string.IsNullOrWhiteSpace(usuario.Password))
             {
-                throw new ValidacionException("ERROR - Contraseña obligatoria.");
+                usuarioAux.HashPassword = Hasheador.Hashear(usuario.Password);
+                usuario.Password = null;  
             }
 
-            if (string.IsNullOrWhiteSpace(usuario.Nombre))
+            if (!string.IsNullOrWhiteSpace(usuario.Nombre))
             {
-                throw new ValidacionException("ERROR - Nombre obligatorio.");
+                usuarioAux.Nombre = usuario.Nombre;
             }
 
-            if (string.IsNullOrWhiteSpace(usuario.Apellido))
+            if (!string.IsNullOrWhiteSpace(usuario.Apellido))
             {
-                throw new ValidacionException("ERROR - Apellido Obligatorio.");
+                usuarioAux.Apellido = usuario.Apellido;
             }
 
-            if (string.IsNullOrWhiteSpace(usuario.Email))
+            if (!string.IsNullOrWhiteSpace(usuario.Email))
             {
-                throw new ValidacionException("ERROR - Email obligatorio.");
+                usuarioAux.Email = usuario.Email;
             }
 
             _repositorioUsuario.Modificar(usuario);
