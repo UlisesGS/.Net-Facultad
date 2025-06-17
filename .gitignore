@@ -1,0 +1,25 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+## Rider
+.idea/
+*.DotSettings.user
+
+## Build
+bin/
+obj/
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## SQLite (opcional)
+*.sqlite
+
+## Sistema operativo
+.DS_Store
+Thumbs.db

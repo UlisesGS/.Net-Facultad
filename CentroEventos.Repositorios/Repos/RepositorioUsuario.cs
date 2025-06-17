@@ -2,7 +2,7 @@
 using CentroEventos.Aplicacion.Enums;
 using CentroEventos.Repositorios.Data;
 
-namespace CentroEventos.Repositorios
+namespace CentroEventos.Repositorios.repos
 {
     public class RepositorioUsuario(DataContext db) : IUsuarioRepositorio
     {

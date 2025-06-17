@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9dg9WVmyr8aE6spX+cuHzK7iVInMytcosy271xMk8jw=",
+  "Hash": "lya9m0mclLO5F27ufo0t06hslKNxz4OZ+r90iW+Pr6c=",
   "Source": "CentroEventos.UI",
   "BasePath": "_content/CentroEventos.UI",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "CentroEventos.UI\\wwwroot",
       "Source": "CentroEventos.UI",
-      "ContentRoot": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
       "BasePath": "_content/CentroEventos.UI",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\app.css",
       "SourceId": "CentroEventos.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
       "BasePath": "_content/CentroEventos.UI",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "CentroEventos.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
       "BasePath": "_content/CentroEventos.UI",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\favicon.png",
       "SourceId": "CentroEventos.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\joasa\\OneDrive\\Escritorio\\SEGUNDO AÑO\\.NET\\Flores_Gadea_Trabajo\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_Trabajo1\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
       "BasePath": "_content/CentroEventos.UI",
       "RelativePath": "favicon.png",
       "AssetKind": "All",

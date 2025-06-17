@@ -2,9 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using CentroEventos.UI;
 using CentroEventos.Aplicacion;
 using CentroEventos.Repositorios.Data;
-using CentroEventos.Repositorios;
+using CentroEventos.Repositorios.repos;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using CentroEventos.Aplicacion.Servicios;
+using CentroEventos.Aplicacion.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 options.UseSqlite("Data Source=database.sqlite"));
 
 //Inyeccion de dependencias Services
-//
+builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
+builder.Services.AddScoped<UsuarioValidador>();
+builder.Services.AddScoped<IServicioAutorizacion,ServicioAutorizacion>();
+
+// Usuarios
+builder.Services.AddScoped<UsuarioAltaUseCase>();
 
 var app = builder.Build();
 

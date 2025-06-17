@@ -12,10 +12,9 @@ public class UsuarioValidador
         {
 
             mensajeError = string.Empty;
-
             if (string.IsNullOrWhiteSpace(usuario.Password))
             {
-                mensajeError = "ERROR - Contraseña obligatoria.";
+                mensajeError = " ERROR - Contraseña obligatoria.";
                 return false;
             }
 

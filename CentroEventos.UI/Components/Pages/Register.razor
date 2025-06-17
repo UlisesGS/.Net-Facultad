@@ -1,34 +1,58 @@
 @page "/Registro"
-@attribute [Layout(typeof(EmptyLayout))]
+@rendermode InteractiveServer
+@using System.ComponentModel.DataAnnotations
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.Entidades
+@inject UsuarioAltaUseCase Alta
 @inject NavigationManager Navigation
+@attribute [Layout(typeof(EmptyLayout))]
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Registrarse</h3>
 
-        <form>
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">@errorMessage</div>
+        }
+
+        @if (success)
+        {
+            <div class="alert alert-success" role="alert">
+                Registro exitoso! Redirigiendo...
+            </div>
+        }
+
+        <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="registroForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
             <div class="mb-3">
-                <label for="username" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" id="username" placeholder="Ingrese su nombre de usuario" />
+                <label for="nombre" class="form-label">Nombre</label>
+                <InputText @bind-Value="usAux.Nombre" class="form-control" />
+                <ValidationMessage For="@(() => usAux.Nombre)" />
             </div>
 
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" placeholder="Ingrese su número de teléfono" />
+                <label for="apellido" class="form-label">Apellido</label>
+                <InputText @bind-Value="usAux.Apellido" class="form-control" />
+                <ValidationMessage For="@(() => usAux.Apellido)" />
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo" />
+                <InputText @bind-Value="usAux.Email" class="form-control" />
+                <ValidationMessage For="@(() => usAux.Email)" />
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" />
+                <InputText type="password" @bind-Value="usAux.Password" class="form-control" />
+                <ValidationMessage For="@(() => usAux.Password)" />
             </div>
 
             <button type="submit" class="btn btn-success w-100">Registrarse</button>
-        </form>
+        </EditForm>
 
         <div class="text-center mt-3">
             ¿Ya tenés cuenta?
@@ -36,3 +60,32 @@
         </div>
     </div>
 </div>
+
+@code {
+
+    private string? errorMessage;
+    private bool success = false;
+    private int id = 0;
+    private Usuario usAux = new Usuario();
+
+    private async Task HandleSubmit()
+    {
+        errorMessage = null;
+        success = false;
+
+        try
+        {
+            Console.WriteLine($"Datos recibidos - Nombre: {usAux.Nombre}, Email: {usAux.Email}");
+            
+            Alta.Ejecutar(usAux, id);
+            success = true;
+            await Task.Delay(2000); // Mostrar mensaje de éxito antes de redirigir
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al registrar el usuario: {ex.Message}";
+        }
+    }
+
+}
