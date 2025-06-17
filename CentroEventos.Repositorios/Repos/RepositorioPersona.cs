@@ -1,101 +1,32 @@
 ﻿namespace CentroEventos.Repositorios.repos;
 
 using System.Collections.Generic;
+using CentroEventos.Aplicacion;
 using CentroEventos.Aplicacion.Entidades;
 using CentroEventos.Aplicacion.Interfaces;
-
-public class RepositorioPersona : IPersonaRepositorio
+using CentroEventos.Repositorios.Data;
+public class RepositorioPersona(DataContext db) : IPersonaRepositorio
 {
-    private readonly string archivoDatos = @"C:\Users\ulise\OneDrive\Escritorio\Facu\flores_gadea_trabajo1\CentroEventos\CentroEventos.Repositorios\Data\persona\persona.txt";
-    private readonly string archivoUltimoId = @"C:\Users\ulise\OneDrive\Escritorio\Facu\flores_gadea_trabajo1\CentroEventos\CentroEventos.Repositorios\Data\persona\persona_ultimoId.txt";
-
-    public int AsignarId()
-    {
-        int idAux;
-        using var leer = new StreamReader(archivoUltimoId);
-        idAux = int.Parse(leer.ReadToEnd());
-        int id = idAux + 1;
-        leer.Close();
-        using var writer = new StreamWriter(archivoUltimoId, false);
-        writer.Write(id);
-        return id;
-    }
-
-    private static string GuardarComoCadena(Persona p)
-    {
-        return p.Id + ";" + p.DNI + ";" + p.Nombre + ";" + p.Apellido + ";" + p.Email + ";" + p.Telefono;
-    }
-
-    private static Persona RestaurarDesdeTexto(string linea)
-    {
-        string[] partes = linea.Split(';');
-        return new Persona(
-            int.Parse(partes[0]),
-            int.Parse(partes[1]),
-            partes[2],
-            partes[3],
-            partes[4],
-            long.Parse(partes[5])
-        );
-    }
-
-
-
     public void Agregar(Persona persona)
     {
-        persona.Id = AsignarId();
-        using var escribir = new StreamWriter(archivoDatos, true);
-        escribir.WriteLine(GuardarComoCadena(persona));
+        db.Personas.Add(persona);
+        db.SaveChanges();
     }
 
     public Persona? BuscarPorId(int id)
     {
-        using var leer = new StreamReader(archivoDatos);
-        string? linea;
-        while ((linea = leer.ReadLine()) != null)
-        {
-            Persona p = RestaurarDesdeTexto(linea);
-            if (p.Id == id)
-                return p;
-        }
-
-        return null;
+        return db.Personas.FirstOrDefault(p => p.Id == id);
     }
 
     public void Eliminar(int id)
     {
-        List<string> newData = [];
-        using (var leer = new StreamReader(archivoDatos))
-        {
-            string? linea;
-            while ((linea = leer.ReadLine()) != null)
-            {
-                Persona p = RestaurarDesdeTexto(linea);
-                if (p.Id != id)
-                    newData.Add(linea);
-            }
-        }
-
-        using (var escribir = new StreamWriter(archivoDatos, false))
-        {
-            foreach (string l in newData)
-            {
-                escribir.WriteLine(l);
-            }
-        }
+        Usuario us = BuscarPorId(id);
+        db.Personas.Remove
     }
 
     public bool ExistsByDNI(int dni)
     {
-        using var leer = new StreamReader(archivoDatos);
-        string? linea;
-        while ((linea = leer.ReadLine()) != null)
-        {
-            Persona p = RestaurarDesdeTexto(linea);
-            if (p.DNI == dni)
-                return true;
-        }
-        return false;
+        return db.Personas.FirstOrDefault(p => p.DNI == dni) != null;
     }
 
     public bool ExistsByEmail(string email)

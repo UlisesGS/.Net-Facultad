@@ -12,39 +12,50 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
 
         public void Ejecutar(Persona persona, int idUsuario){
 
-            if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.PersonaModificacion)){
+            if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.PersonaModificacion))
+            {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
-            
-            var personaAux = _repositorioPersona.BuscarPorId(persona.Id) ?? throw new EntidadNotFoundException("ERROR - La persona no existe.");
 
+            var personaAux = _repositorioPersona.BuscarPorId(persona.Id);
+
+            if (personaAux == null)
+            {
+                throw new EntidadNotFoundException("ERROR - La persona no existe.");
+            }
             //NO PUEDO REPETIR EL VALIDADOR PORQUE PUEDE SER QUE EL EMAIL Y EL DNI SEAN LOS MISMOS
             if (string.IsNullOrWhiteSpace(persona.Nombre))
             {
                 throw new ValidacionException("ERROR - Nombre obligatorio.");
             }
 
-            if(string.IsNullOrWhiteSpace(persona.Apellido)){
+            if(string.IsNullOrWhiteSpace(persona.Apellido))
+            {
                 throw new ValidacionException("ERROR - Apellido Obligatorio.");
             }
 
-            if(persona.DNI == null){
+            if(persona.DNI == null)
+            {
                 throw new ValidacionException("ERROR - DNI obligatorio.");
             }
 
-            if(persona.DNI.Value.ToString().Length != 8){ //c# no detecta el if anterior
+            if(persona.DNI.Value.ToString().Length != 8)
+            { 
                 throw new ValidacionException("ERROR - La longitud tiene que ser de 8.");
             }
 
-            if(string.IsNullOrWhiteSpace(persona.Email)){
+            if(string.IsNullOrWhiteSpace(persona.Email))
+            {
                 throw new ValidacionException("ERROR - Email obligatorio.");
             }
 
-            if(_repositorioPersona.ExistsByDNI(persona.DNI.Value) && persona.DNI != personaAux.DNI){
+            if(_repositorioPersona.ExistsByDNI(persona.DNI.Value) && persona.DNI != personaAux.DNI)
+            {
                 throw new DuplicadoException("ERROR - DNI ya registrado.");
             }
 
-            if(_repositorioPersona.ExistsByEmail(persona.Email) && persona.Email != personaAux.Email){
+            if(_repositorioPersona.ExistsByEmail(persona.Email) && persona.Email != personaAux.Email)
+            {
                 throw new DuplicadoException("ERROR - Email ya registrado.");
             }
 

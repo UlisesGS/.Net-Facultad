@@ -3,27 +3,16 @@ using CentroEventos.Aplicacion.Interfaces;
 
 namespace CentroEventos.Aplicacion
 {
-    public class UsuarioLoginUseCase(IUsuarioRepositorio repoUsuario, IServicioAutorizacion servicioAutorizacion)
+    public class UsuarioLoginUseCase(IUsuarioRepositorio repoUsuario)
     {
         private readonly IUsuarioRepositorio _repositorioUsuario = repoUsuario;
-        private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
-
-        public Usuario Ejecutar(string email, string password)
+        public bool Ejecutar(string email, string password)
         {
-            var usuario = _repositorioUsuario.ObtenerPorEmail(email);
-
-            if (usuario == null)
+            if (_repositorioUsuario.ConseguirDatos(email, password, out string mensajeError))
             {
-                throw new EntidadNotFoundException("ERROR - Usuario no encontrado.");
+                return true;
             }
-
-            if (usuario.HashPassword != Hasheador.Hashear(password))
-            {
-                throw new FalloAutorizacionException("ERROR - Contraseña incorrecta.");
-            }
-
-            return usuario;
+            throw new ValidacionException(mensajeError);
         }
-        
     }
 }
