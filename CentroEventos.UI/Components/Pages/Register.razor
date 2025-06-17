@@ -8,58 +8,101 @@
 @attribute [Layout(typeof(EmptyLayout))]
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-        <h3 class="text-center mb-4">Registrarse</h3>
+    <div class="formulario-wrapper formulario-con-borde text-white" style="max-width: 400px;"> <!-- Más angosto -->
 
-        @if (!string.IsNullOrEmpty(errorMessage))
-        {
-            <div class="alert alert-danger" role="alert">@errorMessage</div>
-        }
+        <!-- Header del formulario -->
+        <div class="form-header p-3 rounded-top">
+            <h3 class="text-center m-0">REGISTRARSE</h3>
+        </div>
 
-        @if (success)
-        {
-            <div class="alert alert-success" role="alert">
-                Registro exitoso! Redirigiendo...
-            </div>
-        }
+        <div class="p-4">
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" role="alert">@errorMessage</div>
+            }
 
-        <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="registroForm">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+            @if (success)
+            {
+                <div class="alert alert-success" role="alert">
+                    Registro exitoso! Redirigiendo...
+                </div>
+            }
 
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <InputText @bind-Value="usAux.Nombre" class="form-control" />
-                <ValidationMessage For="@(() => usAux.Nombre)" />
-            </div>
+            <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="registroForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <InputText @bind-Value="usAux.Apellido" class="form-control" />
-                <ValidationMessage For="@(() => usAux.Apellido)" />
-            </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <InputText @bind-Value="usAux.Nombre" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.Nombre)" />
+                </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <InputText @bind-Value="usAux.Email" class="form-control" />
-                <ValidationMessage For="@(() => usAux.Email)" />
-            </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <InputText @bind-Value="usAux.Apellido" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.Apellido)" />
+                </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <InputText type="password" @bind-Value="usAux.Password" class="form-control" />
-                <ValidationMessage For="@(() => usAux.Password)" />
-            </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <InputText @bind-Value="usAux.Email" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.Email)" />
+                </div>
 
-            <button type="submit" class="btn btn-success w-100">Registrarse</button>
-        </EditForm>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <InputText type="password" @bind-Value="usAux.Password" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.Password)" />
+                </div>
 
-        <div class="text-center mt-3">
-            ¿Ya tenés cuenta?
-            <a href="/">Iniciar sesión</a>
+                <!-- Footer con botones alineados -->
+                
+                <div class="form-footer d-flex justify-content-between align-items-center p-2 rounded-bottom">
+                    <div class="form-footer p-2 rounded-bottom">
+                        <span class="text-white d-block">¿Ya tenés cuenta?</span>
+                        <a href="/" class="btn btn-warning btn-sm mt-2 ms-3">Iniciar sesión</a>
+                    </div>
+                    <button type="submit" class="btn btn-success">Registrarse</button>
+                </div>
+                
+            </EditForm>
+            
         </div>
     </div>
 </div>
+
+
+<style>
+.formulario-wrapper {
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29;
+    border-radius: 12px;
+}
+
+.form-header {
+    background-color: #478689;
+}
+
+.bg-footer {
+    background-color: #478689;
+}
+
+</style>
 
 @code {
 
