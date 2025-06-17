@@ -19,10 +19,9 @@ namespace CentroEventos.Aplicacion
 
             var usuarioAux = _repositorioUsuario.BuscarPorId(usuario.Id) ?? throw new EntidadNotFoundException("ERROR - El usuario no existe.");
 
-            if (!string.IsNullOrWhiteSpace(usuario.Password))
+            if (!string.IsNullOrWhiteSpace(usuario.HashPassword))
             {
-                usuarioAux.HashPassword = Hasheador.Hashear(usuario.Password);
-                usuario.Password = null;  
+                usuarioAux.HashPassword = Hasheador.Hashear(usuario.HashPassword); 
             }
 
             if (!string.IsNullOrWhiteSpace(usuario.Nombre))

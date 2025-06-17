@@ -21,4 +21,6 @@ public interface IUsuarioRepositorio
     public bool HayUsuarios();
 
     public Usuario? ObtenerPorEmail(string email);
+
+    public bool ConseguirDatos(string email, string password, out string mensajeError);
 }

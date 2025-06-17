@@ -16,7 +16,7 @@ namespace CentroEventos.Repositorios.repos
 
         public Usuario? BuscarPorId(int id)
         {
-            return db.Usuarios.FirstOrDefault(u => u.Id == id);  
+            return db.Usuarios.FirstOrDefault(u => u.Id == id);
         }
 
         public void Eliminar(Usuario usuario)
@@ -56,6 +56,29 @@ namespace CentroEventos.Repositorios.repos
             usuario.Permisos.Add(permiso);
             db.Usuarios.Update(usuario);
             db.SaveChanges();
+        }
+        
+        public bool ConseguirDatos(string email, string password, out string mensajeError)
+        {
+            mensajeError = string.Empty;
+
+            var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
+            if (usuario != null)
+            {
+                string? aux = usuario.HashPassword;
+                string hash = Hasheador.Hashear(password);
+                if (aux == hash)
+                {
+                    return true;
+                }
+                mensajeError = "ERROR - Contraseña incorrecta.";
+                return false;
+            }
+            else
+            {
+                mensajeError = "ERROR - El usuario no existe.";
+            }
+            return false;
         }
     }
 }

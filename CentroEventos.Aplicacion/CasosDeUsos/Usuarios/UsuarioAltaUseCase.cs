@@ -30,9 +30,7 @@ namespace CentroEventos.Aplicacion
                 }
             }
 
-            usuario.HashPassword = Hasheador.Hashear(usuario.Password!);
-
-            usuario.Password = null;
+            usuario.HashPassword = Hasheador.Hashear(usuario.HashPassword!);
 
             _repositorioUsuario.Agregar(usuario);
         }

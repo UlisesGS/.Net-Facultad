@@ -13,14 +13,13 @@ public class Usuario
         Nombre = nombre;
         Apellido = apellido;
         Email = email;
-        Password = password;
+        HashPassword = password;
     }
 
     public int Id { get; set; }
     public string Nombre { get; set; } = null!;
     public string Apellido { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public string? Password { get; set; }
     public string HashPassword { get; set; } = null!; // no se si se necesita creeria q si
     public List<EnumPermiso> Permisos { get; set; } = new List<EnumPermiso>();  // lo pense asi no se si esta bien 
 }
