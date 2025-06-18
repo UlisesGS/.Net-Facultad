@@ -1,0 +1,81 @@
+@page "/usuario-listar"
+@rendermode InteractiveServer
+@using CentroEventos.Aplicacion
+@inject UsuarioListarUseCase Listar
+@inject NavigationManager Navigation
+
+<div class="bg-personas-header rounded p-3">
+    <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
+        <h4 class="m-0 text-white p-2">Listado de Personas</h4>
+        <button type="button" class="btn btn-success mt-2" @onclick="crear">
+            <i class="bi bi-plus-circle me-1"></i> Crear Persona
+        </button>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-custom">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Mail</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in usuarios)
+                {
+                    <tr>
+                        <td>@usuario.Id</td>
+                        <td>@usuario.Nombre</td>
+                        <td>@usuario.Apellido</td>
+                        <td>@usuario.Email</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm me-1">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" >
+                                <i class="bi bi-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<style>
+.bg-personas-header {
+    background-color: #1c2a29;
+}
+
+.thead-custom {
+    background-color: #478689 ;
+}
+
+.thead-custom th {
+    background-color: #478689 ;
+    color: white ;
+}
+
+
+</style>
+
+@code {
+    private List<Usuario> usuarios = new();
+
+    protected override void OnInitialized()
+    {
+        usuarios = Listar.Ejecutar();
+    }
+
+    private void crear()
+    {
+        Navigation.NavigateTo("/usuario-crear");
+    }
+    
+}

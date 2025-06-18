@@ -3,9 +3,6 @@ using CentroEventos.UI;
 using CentroEventos.Aplicacion;
 using CentroEventos.Repositorios.Data;
 using CentroEventos.Repositorios.repos;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using CentroEventos.Aplicacion.Servicios;
 using CentroEventos.Aplicacion.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +19,7 @@ options.UseSqlite("Data Source=database.sqlite"));
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
 builder.Services.AddScoped<UsuarioValidador>();
 builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
+builder.Services.AddScoped<ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioLogin>();
 
 // Usuarios

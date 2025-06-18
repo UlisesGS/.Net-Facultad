@@ -2,7 +2,7 @@
 using CentroEventos.Aplicacion.Excepciones;
 using CentroEventos.Aplicacion.Interfaces;
 
-namespace CentroEventos.Aplicacion.Servicios;
+namespace CentroEventos.Aplicacion;
 
 public class ServicioAutorizacion : IServicioAutorizacion
 {
