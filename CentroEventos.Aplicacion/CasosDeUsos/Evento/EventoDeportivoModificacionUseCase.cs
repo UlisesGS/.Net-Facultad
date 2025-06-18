@@ -23,7 +23,8 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
                     throw new OperacionInvalidaException("ERROR - La fecha expiro.");
                 }
 
-                if(evento.FechaHoraInicio < DateTime.Now){
+                if(evento.FechaHoraInicio < DateTime.Now)
+                {
                     throw new OperacionInvalidaException("ERROR - La fecha tiene que ser posterior al actual");
                 }
 

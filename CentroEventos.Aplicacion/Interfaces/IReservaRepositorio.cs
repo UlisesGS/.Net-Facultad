@@ -7,6 +7,8 @@ namespace CentroEventos.Aplicacion.Interfaces
     {
         public Boolean ExistsDuplicatePersona(int idPersona, int idEventoDeportivo);
 
+        public Reserva? BuscarPorId(int id);
+
         public int QuantityCupo(int idEventoDeportivo); // lo contamos aca, porque no hay registro de como se va llenanado
 
         public Boolean ExistsById(int id);

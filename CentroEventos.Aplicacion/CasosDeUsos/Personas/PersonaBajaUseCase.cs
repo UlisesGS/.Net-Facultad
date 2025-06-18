@@ -18,7 +18,7 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
             {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
-
+            
             if (!_repositorioPersona.ExistsById(idPersona))
             {
                 throw new ValidacionException("ERROR - Esta persona no existe");
@@ -32,11 +32,8 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
             if(_repositorioReserva.ExistsByIdPersona(idPersona)){
                 throw new OperacionInvalidaException("ERROR - Esta persona esta vinculada a una reserva.");
             }
-            
-            
 
             _repositorioPersona.Eliminar(idPersona);
-        
         }
     }
 }

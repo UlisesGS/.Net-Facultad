@@ -12,7 +12,8 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
 
             public void Ejecutar(int idEvento, int idUsuario){
 
-                if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.EventoBaja)){
+                if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.EventoBaja))
+                {
                     throw new FalloAutorizacionException("ERROR - No estas autorizado.");
                 }
                 
@@ -21,13 +22,12 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
                     throw new ValidacionException("ERROR - Este evento no existe");
                 }
 
-            
                 if (_repositorioReserva.ExistsByIdEvento(idEvento))
                 {
                     throw new OperacionInvalidaException("ERROR - Este evento esta vinculado a una reserva.");
                 }
+
                     _repositorioEvento.Eliminar(idEvento);
-            
             }
     }
 }

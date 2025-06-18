@@ -8,8 +8,9 @@ public interface IUsuarioRepositorio
 
     public Usuario Agregar(Usuario usuario);
 
-    public void Eliminar(Usuario usuario);
+    public void Eliminar(int id);
 
+    public bool ExistsById(int id);
     public void Modificar(Usuario usuario);
 
     public Usuario? BuscarPorId(int id);

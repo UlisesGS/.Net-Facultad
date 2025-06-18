@@ -21,14 +21,12 @@ namespace CentroEventos.Aplicacion
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
 
-            var usuarioAux = _repositorioUsuario.BuscarPorId(idUsuarioAEliminar);
-
-            if (usuarioAux == null)
+            if (!_repositorioUsuario.ExistsById(idUsuarioAEliminar))
             {
                 throw new EntidadNotFoundException("ERROR - El usuario no exise.");
             }
 
-            _repositorioUsuario.Eliminar(usuarioAux);
+            _repositorioUsuario.Eliminar(idUsuarioAEliminar);
         }
     }
 }

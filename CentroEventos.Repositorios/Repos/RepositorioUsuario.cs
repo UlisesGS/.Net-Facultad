@@ -19,12 +19,17 @@ namespace CentroEventos.Repositorios.repos
             return db.Usuarios.FirstOrDefault(u => u.Id == id);
         }
 
-        public void Eliminar(Usuario usuario)
+        public void Eliminar(int id)
         {
-            db.Usuarios.Remove(usuario);
+            Usuario? us = BuscarPorId(id);
+            db.Usuarios.Remove(us!);
             db.SaveChanges();
         }
 
+        public bool ExistsById(int id)
+        {
+            return db.Usuarios.Any(u => u.Id == id);
+        }
         public bool ExistsByEmail(string email)
         {
             return db.Usuarios.Any(u => u.Email == email);
