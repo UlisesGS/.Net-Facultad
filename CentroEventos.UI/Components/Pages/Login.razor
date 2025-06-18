@@ -81,7 +81,7 @@
 
     private Usuario usAux = new Usuario();
 
-    void HandleSubmit()
+    async Task HandleSubmit()
     {   
         Console.WriteLine($"Datos recibidos - ema: {usAux.Email}, pas: {usAux.HashPassword}");
         if(UsuarioLogin.Ejecutar(usAux.Email,usAux.HashPassword))
@@ -91,6 +91,9 @@
             {
                 ServicioLogin.SetUser(usuario);
                 ServicioLogin.Logueado();
+
+                await Task.Delay(50);
+
                 Navigation.NavigateTo("/persona-listar");
 
             }

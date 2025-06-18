@@ -56,9 +56,9 @@ namespace CentroEventos.Repositorios.repos
             return db.Usuarios.FirstOrDefault(u => u.Email == email);
         }
 
-        public void OtorgarPermiso(Usuario usuario, EnumPermiso permiso)
+        public void OtorgarPermiso(Usuario usuario, List<EnumPermiso> permisosNuevos)
         {
-            usuario.Permisos.Add(permiso);
+            usuario.Permisos = permisosNuevos;
             db.Usuarios.Update(usuario);
             db.SaveChanges();
         }

@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion
 @inject UsuarioListarUseCase Listar
+@inject ServicioLogin ServicioLogin
 @inject NavigationManager Navigation
 
 <div class="bg-personas-header rounded p-3">
@@ -20,7 +21,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>Mail</th>
+                    <th>Email</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -67,10 +68,11 @@
 
 @code {
     private List<Usuario> usuarios = new();
-
+    private Usuario? user;
     protected override void OnInitialized()
     {
         usuarios = Listar.Ejecutar();
+        user = ServicioLogin.GetUser();
     }
 
     private void crear()

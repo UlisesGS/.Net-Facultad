@@ -115,21 +115,7 @@
 
     private Usuario? user;
 
-    protected override void OnInitialized()
-    {
-        user = ServicioLogin.GetUser();
-        if (user == null)
-        {
-            Navigation.NavigateTo("/");
-            return;
-        }
-
-        if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
-        {
-            Navigation.NavigateTo("/no-autorizado");
-            return;
-        }
-    }
+    
 
 
     private void Cancelar() => Navigation.NavigateTo("/");
@@ -140,6 +126,19 @@
 
         try
         {
+            
+            user = ServicioLogin.GetUser();
+            if (user == null)
+            {
+                Navigation.NavigateTo("/");
+                return;
+            }
+
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
+            {
+                Navigation.NavigateTo("/no-autorizado");
+                return;
+            }
 
             Alta.Ejecutar(usAux, user!.Id);
             success = true;
