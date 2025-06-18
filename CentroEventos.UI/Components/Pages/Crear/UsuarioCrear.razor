@@ -1,4 +1,4 @@
-@page "/usuario-crear"
+@page "/usuario-modificar/{id:int}"
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion
@@ -115,22 +115,6 @@
 
     private Usuario? user;
 
-    protected override void OnInitialized()
-    {
-        user = ServicioLogin.GetUser();
-        if (user == null)
-        {
-            Navigation.NavigateTo("/");
-            return;
-        }
-
-        if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
-        {
-            Navigation.NavigateTo("/no-autorizado");
-            return;
-        }
-    }
-
 
     private void Cancelar() => Navigation.NavigateTo("/");
     private async Task HandleSubmit()
@@ -140,8 +124,20 @@
 
         try
         {
+            user = ServicioLogin.GetUser();
+            if (user == null)
+            {
+                Navigation.NavigateTo("/");
+                return;
+            }
 
-            Alta.Ejecutar(usAux, user!.Id);
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
+            {
+                Navigation.NavigateTo("/no-autorizado");
+                return;
+            }
+
+            Alta.Ejecutar(usAux);
             success = true;
             await Task.Delay(1000);
             Navigation.NavigateTo("/persona-listar");

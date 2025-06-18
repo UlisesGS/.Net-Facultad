@@ -12,11 +12,7 @@ public class UsuarioValidador
         {
 
             mensajeError = string.Empty;
-            if (string.IsNullOrWhiteSpace(usuario.HashPassword))
-            {
-                mensajeError = " ERROR - Contraseña obligatoria.";
-                return false;
-            }
+            
 
             if (string.IsNullOrWhiteSpace(usuario.Nombre))
             {
@@ -40,6 +36,12 @@ public class UsuarioValidador
             {
                 mensajeError = "ERROR - Email ya registrado.";
                 return false;   
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.HashPassword))
+            {
+                mensajeError = " ERROR - Contraseña obligatoria.";
+                return false;
             }
 
             return true;

@@ -4,8 +4,6 @@
 @using CentroEventos.Aplicacion
 @using CentroEventos.Aplicacion.Entidades
 @inject UsuarioAltaUseCase Alta
-@inject UsuarioListarUseCase usuarioListar
-@inject ServicioLogin ServicioLogin
 @inject NavigationManager Navigation
 @attribute [Layout(typeof(EmptyLayout))]
 
@@ -18,21 +16,27 @@
         </div>
 
         <div class="p-4">
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger" role="alert">@errorMessage</div>
-            }
-
-            @if (success)
-            {
-                <div class="alert alert-success" role="alert">
-                    Registro exitoso! Redirigiendo...
-                </div>
-            }
+            
 
             <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="registroForm">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+
+                @* Mensaje de éxito general *@
+                @if (success)
+                {
+                    <div class="alert alert-success">
+                        Usuario creado correctamente.
+                    </div>
+                }
+
+                @* Mensaje de error genérico *@
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
 
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
@@ -63,7 +67,7 @@
                 <div class="form-footer d-flex justify-content-between align-items-center p-2 rounded-bottom">
                     <div class="form-footer p-2 rounded-bottom">
                         <span class="text-white d-block">¿Ya tenés cuenta?</span>
-                        <a href="/" class="btn btn-warning btn-sm mt-2 ms-3">Iniciar sesión</a>
+                        <NavLink href="/" class="btn btn-warning btn-sm mt-2 ms-3">Iniciar sesión</NavLink>
                     </div>
                     <button type="submit" class="btn btn-success">Registrarse</button>
                 </div>
@@ -110,7 +114,6 @@
 
     private string? errorMessage;
     private bool success = false;
-    private int id = 0;
     private Usuario usAux = new Usuario();
 
     private async Task HandleSubmit()
@@ -120,9 +123,8 @@
 
         try
         {
-            Console.WriteLine($"Datos recibidos - Nombre: {usAux.Nombre}, Email: {usAux.Email}");
             
-            Alta.Ejecutar(usAux, id);
+            Alta.Ejecutar(usAux);
             success = true;
             await Task.Delay(2000); // Mostrar mensaje de éxito antes de redirigir
             Navigation.NavigateTo("/");
@@ -131,5 +133,23 @@
         {
             errorMessage = $"Error al registrar el usuario: {ex.Message}";
         }
+    }
+
+    public class UsuarioAux
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Nombre { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El apellido es obligatorio.")]
+        public string Apellido { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El email es obligatorio.")]
+        [EmailAddress(ErrorMessage = "Formato de email inválido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
+        public string HashPassword { get; set; } = string.Empty;
     }
 }

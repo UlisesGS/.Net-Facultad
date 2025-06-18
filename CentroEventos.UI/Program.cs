@@ -22,6 +22,7 @@ builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioLogin>();
 
+
 // Usuarios
 builder.Services.AddScoped<UsuarioAltaUseCase>();
 builder.Services.AddScoped<UsuarioLoginUseCase>();
@@ -31,7 +32,12 @@ builder.Services.AddScoped<UsuarioListarUseCase>();
 var app = builder.Build();
 
 //inicializar base de datos
-DbSqlite.Inicializar();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    DbSqlite.Inicializar(context);
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

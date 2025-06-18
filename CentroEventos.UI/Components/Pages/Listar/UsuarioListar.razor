@@ -2,14 +2,15 @@
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion
 @inject UsuarioListarUseCase Listar
+@inject ServicioAutorizacion ServicioAutorizacion
+
+@using CentroEventos.Aplicacion.Enums
+@inject ServicioLogin Login
 @inject NavigationManager Navigation
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Personas</h4>
-        <button type="button" class="btn btn-success mt-2" @onclick="crear">
-            <i class="bi bi-plus-circle me-1"></i> Crear Persona
-        </button>
     </div>
 
 
@@ -33,10 +34,10 @@
                         <td>@usuario.Apellido</td>
                         <td>@usuario.Email</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(usuario.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" >
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(usuario.Id)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -68,14 +69,38 @@
 @code {
     private List<Usuario> usuarios = new();
 
-    protected override void OnInitialized()
+
+
+    private bool primerRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        usuarios = Listar.Ejecutar();
+        if (primerRender)
+        {
+            await Task.Delay(10);
+            primerRender = false;
+
+            var user = Login.GetUser();
+
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
+            Console.WriteLine("ESTOY ACA "+user.Email);
+            usuarios = Listar.Ejecutar();
+            StateHasChanged();
+        }
     }
 
-    private void crear()
+    private void Modificar(int id)
     {
-        Navigation.NavigateTo("/usuario-crear");
+        Navigation.NavigateTo($"/usuario-modificar/{id}");
+    }
+    
+    private void Eliminar(int id)
+    {
+        
     }
     
 }

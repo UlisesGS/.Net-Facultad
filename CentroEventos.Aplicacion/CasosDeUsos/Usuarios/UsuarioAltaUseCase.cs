@@ -3,12 +3,11 @@ using CentroEventos.Aplicacion.Enums;
 using CentroEventos.Aplicacion.Excepciones;
 namespace CentroEventos.Aplicacion
 {
-    public class UsuarioAltaUseCase(IUsuarioRepositorio repoUsuario, IServicioAutorizacion servicioAutorizacion, UsuarioValidador validador)
+    public class UsuarioAltaUseCase(IUsuarioRepositorio repoUsuario, UsuarioValidador validador)
     {
         private readonly IUsuarioRepositorio _repositorioUsuario = repoUsuario;
-        private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
         private readonly UsuarioValidador _validadorUsuario = validador;
-        public void Ejecutar(Usuario usuario, int idUsuario)
+        public void Ejecutar(Usuario usuario)
         {
 
             if (!_validadorUsuario.Validar(usuario, out string mensajeError))
@@ -20,14 +19,7 @@ namespace CentroEventos.Aplicacion
             {
                 usuario.Permisos = Enum.GetValues<EnumPermiso>().ToList();
             }
-            else
-            {
-                Console.WriteLine("ESTAMOS ACA");
-                if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioAlta))
-                {
-                    throw new FalloAutorizacionException("ERROR - No estás autorizado.");
-                }
-            }
+    
             usuario.HashPassword = Hasheador.Hashear(usuario.HashPassword!);
 
             _repositorioUsuario.Agregar(usuario);

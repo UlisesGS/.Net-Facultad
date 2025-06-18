@@ -4,22 +4,22 @@ namespace CentroEventos.Aplicacion
 {
     public class ServicioLogin
     {
-        public Usuario usuario { get; set; } = null!;
+        public Usuario UsuarioLog { get; set; } = null!;
 
         public bool EstaLogeado { get; set; } = false;
 
         public void SetUser(Usuario user)
         {
-            usuario = user;
+            UsuarioLog = user;
         }
 
         public Usuario GetUser()
         {
-            if (usuario == null)
+            if (UsuarioLog == null)
             {
-                throw new EntidadNotFoundException("ERROR - No se pudo obtener el usuario.");
+                throw new EntidadNotFoundException("ERROR - No se pudo obtener el Usuario.");
             }
-            return usuario;
+            return UsuarioLog;
         }
 
         public void Logueado()
@@ -27,11 +27,13 @@ namespace CentroEventos.Aplicacion
             EstaLogeado = true;
         }
 
+        public bool UsuarioEstaLogeado() => UsuarioLog != null;
+
         public int GetId()
         {
-            if (usuario != null)
+            if (UsuarioLog != null)
             {
-                return usuario.Id;
+                return UsuarioLog.Id;
             }
 
             return 0;

@@ -4,22 +4,20 @@ namespace CentroEventos.Repositorios.Data;
 
 public class DbSqlite
 {
-    public static void Inicializar()
+    public static void Inicializar(DataContext context)
     {
-      using var context = new DataContext();
-
-      if (context.Database.EnsureCreated())
-      {
-        var connection = context.Database.GetDbConnection();
-        connection.Open();
-
-        using (var command = connection.CreateCommand())
+        if (context.Database.EnsureCreated())
         {
-          command.CommandText = "PRAGMA journal_mode=DELETE;";
-          command.ExecuteNonQuery();
-        }
+            var connection = context.Database.GetDbConnection();
+            connection.Open();
 
-        Console.WriteLine("Base de datos creada y modo journal configurado.");
-      }
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "PRAGMA journal_mode=DELETE;";
+                command.ExecuteNonQuery();
+            }
+
+            Console.WriteLine("Base de datos creada y modo journal configurado.");
+        }
     }
 }

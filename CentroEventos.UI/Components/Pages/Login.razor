@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion
+@using System.ComponentModel.DataAnnotations;
 @inject UsuarioLoginUseCase UsuarioLogin
 @inject UsuarioBuscarUseCase UsuarioBuscar
 @inject ServicioLogin ServicioLogin
@@ -18,21 +19,33 @@
 
         <div class="p-4">
             <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="loginForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                @* Mensaje de error genérico *@
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
                     <InputText @bind-Value="usAux.Email" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.Email)" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <InputText type="password" @bind-Value="usAux.HashPassword" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => usAux.HashPassword)" />
                 </div>
 
                 <div class="form-footer d-flex justify-content-between align-items-center p-2 rounded-bottom">
                     <div>
                         <span class="text-white d-block">¿Ya tenés cuenta?</span>
-                        <a href="/registro" class="btn btn-warning btn-sm mt-2 ms-3">Registrarse</a>
+                        <NavLink href="/registro" class="btn btn-warning btn-sm mt-2 ms-3">Registrarse</NavLink>
                     </div>
 
                     <button type="submit" class="btn btn-success">Iniciar</button>
@@ -80,23 +93,34 @@
 @code {
 
     private Usuario usAux = new Usuario();
+    private string? errorMessage;
 
-    void HandleSubmit()
+    private async Task HandleSubmit()
     {   
-        Console.WriteLine($"Datos recibidos - ema: {usAux.Email}, pas: {usAux.HashPassword}");
-        if(UsuarioLogin.Ejecutar(usAux.Email,usAux.HashPassword))
-        {
-            Usuario usuario = UsuarioBuscar.Ejecutar(usAux.Email);
-            if(usuario != null)
-            {
-                ServicioLogin.SetUser(usuario);
-                ServicioLogin.Logueado();
-                Navigation.NavigateTo("/persona-listar");
+        errorMessage = null;
 
+        try{
+
+            if(UsuarioLogin.Ejecutar(usAux.Email,usAux.HashPassword))
+            {
+                Usuario usuario = UsuarioBuscar.Ejecutar(usAux.Email);
+                if(usuario != null)
+                {
+                    ServicioLogin.SetUser(usuario);
+                    ServicioLogin.Logueado();
+                    await Task.Delay(10);
+                    Navigation.NavigateTo("/usuario-listar");
+
+                }
             }
         }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
 
-    
     }
 
 }
+
+
