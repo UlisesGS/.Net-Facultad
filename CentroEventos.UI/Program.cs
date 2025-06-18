@@ -44,15 +44,24 @@ builder.Services.AddScoped<UsuarioModificacionUseCase>();
 
 
 // Personas
+builder.Services.AddScoped<PersonaBajaUseCase>();
 builder.Services.AddScoped<PersonaAltaUseCase>();
 builder.Services.AddScoped<PersonaListarUseCase>();
 builder.Services.AddScoped<PersonaBuscarPorIdUseCase>();
+builder.Services.AddScoped<PersonaModificacionUseCase>();
+
 // Eventos
+builder.Services.AddScoped<EventoDeportivoBajaUseCase>();
+builder.Services.AddScoped<EventoDeportivoAltaUseCase>();
 builder.Services.AddScoped<EventoDeportivoListarUseCase>();
+builder.Services.AddScoped<EventoDeportivoModificacionUseCase>();
 
 
 // Reservas
+builder.Services.AddScoped<ReservaBajaUseCase>();
+builder.Services.AddScoped<ReservaAltaUseCase>();
 builder.Services.AddScoped<ReservaListarUseCase>();
+builder.Services.AddScoped<ReservaModificacionUseCase>();
 
 var app = builder.Build();
 
