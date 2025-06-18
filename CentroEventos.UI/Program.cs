@@ -46,7 +46,7 @@ builder.Services.AddScoped<UsuarioModificacionUseCase>();
 // Personas
 builder.Services.AddScoped<PersonaAltaUseCase>();
 builder.Services.AddScoped<PersonaListarUseCase>();
-
+builder.Services.AddScoped<PersonaBuscarPorIdUseCase>();
 // Eventos
 builder.Services.AddScoped<EventoDeportivoListarUseCase>();
 
