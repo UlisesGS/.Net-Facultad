@@ -1,6 +1,4 @@
-﻿/* namespace CentroEventos.Repositorios.repos;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CentroEventos.Aplicacion;
 using CentroEventos.Aplicacion.Entidades;
 using CentroEventos.Aplicacion.Interfaces;
@@ -51,4 +49,4 @@ public class RepositorioPersona(DataContext db) : IPersonaRepositorio
         db.SaveChanges();
     }
 }
- */
+ 
