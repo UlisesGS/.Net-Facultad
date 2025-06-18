@@ -5,7 +5,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject PersonaListarUseCase Listar
-@inject ServicioLogin ServicioLogin
+@inject ServicioLogin Login
 
 
 <div class="bg-personas-header rounded p-3">
@@ -78,10 +78,26 @@
     private List<Persona> personas = new();
     private Usuario? user;
 
-    protected override void OnInitialized()
+    private bool primerRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        personas = Listar.Ejecutar();
-        user = ServicioLogin.GetUser();
+        if (primerRender)
+        {
+            await Task.Delay(10);
+            primerRender = false;
+
+            var user = Login.GetUser();
+
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
+
+            personas = Listar.Ejecutar();
+            StateHasChanged();
+        }
     }
     private void crear()
     {

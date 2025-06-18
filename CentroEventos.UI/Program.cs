@@ -24,11 +24,8 @@ builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioLogin>();
 
-<<<<<<< HEAD
-=======
 builder.Services.AddScoped<IPersonaRepositorio, RepositorioPersona>();
 builder.Services.AddScoped<PersonaValidador>();
->>>>>>> 378ad689e67da45e0049f25a09395728f93b40f5
 
 // Usuarios
 builder.Services.AddScoped<UsuarioAltaUseCase>();
