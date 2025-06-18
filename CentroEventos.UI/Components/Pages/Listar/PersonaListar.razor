@@ -41,10 +41,10 @@
                         <td>@persona.Email</td>
                         <td>@persona.Telefono</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(persona.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" >
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(persona.Id)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -103,6 +103,16 @@
     private void crear()
     {
         Navigation.NavigateTo("/persona-crear");
+    }
+
+    private void Modificar(int id)
+    {
+        Navigation.NavigateTo($"/persona-modificar/{id}");
+    }
+
+    private void Eliminar(int id)
+    {
+        
     }
 
 }
