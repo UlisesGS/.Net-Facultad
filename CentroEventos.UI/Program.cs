@@ -32,6 +32,10 @@ builder.Services.AddScoped<UsuarioAltaUseCase>();
 builder.Services.AddScoped<UsuarioLoginUseCase>();
 builder.Services.AddScoped<UsuarioBuscarUseCase>();
 builder.Services.AddScoped<UsuarioListarUseCase>();
+builder.Services.AddScoped<UsuarioBuscarIdUseCase>();
+builder.Services.AddScoped<UsuarioModificacionUseCase>();
+
+
 
 // Personas
 builder.Services.AddScoped<PersonaAltaUseCase>();

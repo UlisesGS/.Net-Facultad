@@ -19,9 +19,11 @@ namespace CentroEventos.Aplicacion
 
             var usuarioAux = _repositorioUsuario.BuscarPorId(usuario.Id) ?? throw new EntidadNotFoundException("ERROR - El usuario no existe.");
 
+
             if (!string.IsNullOrWhiteSpace(usuario.HashPassword))
             {
-                usuarioAux.HashPassword = Hasheador.Hashear(usuario.HashPassword); 
+
+                usuarioAux.HashPassword = Hasheador.Hashear(usuario.HashPassword);
             }
 
             if (!string.IsNullOrWhiteSpace(usuario.Nombre))
@@ -39,7 +41,7 @@ namespace CentroEventos.Aplicacion
                 usuarioAux.Email = usuario.Email;
             }
 
-            _repositorioUsuario.Modificar(usuario);
+            _repositorioUsuario.Modificar(usuarioAux);
         }
     }
 }

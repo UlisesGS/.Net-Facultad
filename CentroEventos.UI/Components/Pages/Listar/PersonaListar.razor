@@ -82,19 +82,22 @@
 
     protected override async Task OnAfterRenderAsync(bool Render)
     {
-        await Task.Delay(10);
-        primerRender = false;
-
-        var user = Login.GetUser();
-
-        if (user == null)
+        if (primerRender)
         {
-            Navigation.NavigateTo("/", true);
-            return;
-        }
+            await Task.Delay(10);
+            primerRender = false;
 
-        personas = Listar.Ejecutar();
-        StateHasChanged();
+            var user = Login.GetUser();
+
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
+
+            personas = Listar.Ejecutar();
+            StateHasChanged();
+        }
     }
 
     private void crear()

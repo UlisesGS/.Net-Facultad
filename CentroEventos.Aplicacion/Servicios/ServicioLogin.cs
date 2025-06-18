@@ -15,10 +15,6 @@ namespace CentroEventos.Aplicacion
 
         public Usuario GetUser()
         {
-            if (UsuarioLog == null)
-            {
-                throw new EntidadNotFoundException("ERROR - No se pudo obtener el Usuario.");
-            }
             return UsuarioLog;
         }
 

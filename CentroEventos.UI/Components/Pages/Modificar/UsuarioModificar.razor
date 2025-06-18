@@ -4,15 +4,16 @@
 @using CentroEventos.Aplicacion
 @using System.ComponentModel.DataAnnotations;
 @using CentroEventos.Aplicacion.Enums 
-@inject UsuarioAltaUseCase Alta
+@inject UsuarioModificacionUseCase Modificar
 @inject ServicioAutorizacion ServicioAutorizacion
-@inject ServicioLogin ServicioLogin
+@inject UsuarioBuscarIdUseCase usuarioBuscarId
+@inject ServicioLogin Login
 @inject NavigationManager Navigation
 
 
 <div class="d-flex justify-content-center align-items-start w-100" style="min-height: calc(100vh - 4rem);">
     <div class="formulario-wrapper">
-        <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="crearUsuario" class="p-0 formulario-con-borde text-white">
+        <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="modificarUsuario" class="p-0 formulario-con-borde text-white">
             <DataAnnotationsValidator />
             
             @* Mensaje de éxito general *@
@@ -108,13 +109,46 @@
 
 @code {
 
+    [Parameter]
+    public int id { get; set; }
     private string? errorMessage;
-
     private bool success;
     private Usuario usAux = new Usuario();
-
     private Usuario? user;
+    private bool primerRender = true;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (primerRender)
+            {
+                await Task.Delay(10);
+                primerRender = false;
+
+                var user = Login.GetUser();
+
+                if (user == null)
+                {
+                    Navigation.NavigateTo("/", true);
+                    return;
+                }
+
+                var usuarioDB = usuarioBuscarId.Ejecutar(id);
+
+                usAux.Id = usuarioDB.Id;
+                usAux.Nombre = usuarioDB.Nombre;
+                usAux.Apellido = usuarioDB.Apellido;
+                usAux.Email = usuarioDB.Email;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        
+    }
 
     private void Cancelar() => Navigation.NavigateTo("/");
     private async Task HandleSubmit()
@@ -124,7 +158,7 @@
 
         try
         {
-            user = ServicioLogin.GetUser();
+            user = Login.GetUser();
             if (user == null)
             {
                 Navigation.NavigateTo("/");
@@ -137,10 +171,10 @@
                 return;
             }
 
-            Alta.Ejecutar(usAux);
+            Modificar.Ejecutar(usAux,user.Id);
             success = true;
             await Task.Delay(1000);
-            Navigation.NavigateTo("/persona-listar");
+            Navigation.NavigateTo("/usuario-listar");
         }
         catch (Exception ex)
         {
@@ -148,23 +182,5 @@
         }
     }
 
-public class UsuarioAux
-{
-    public int Id { get; set; }
-
-    [Required(ErrorMessage = "El nombre es obligatorio.")]
-    public string Nombre { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "El apellido es obligatorio.")]
-    public string Apellido { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "El email es obligatorio.")]
-    [EmailAddress(ErrorMessage = "Formato de email inválido.")]
-    public string Email { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "La contraseña es obligatoria.")]
-    [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
-    public string HashPassword { get; set; } = string.Empty;
-}
 
 }
