@@ -1,37 +1,116 @@
 @page "/evento-listar"
-@rendermode InteractiveServer
 
-<h1>Listado de Eventos</h1>
-<button type="button" class="btn btn-success">Crear Evento</button>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Responsable</th>
-            <th>Cupo maximo</th>
-            <th>Fecha inicio</th>
-            <th>Duracion horas</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>u.Id</td>
-            <td>u.Nombre</td>
-            <td>u.Apellidoaaaaaaaaa</td>
-            <td>u.Mail</td>
-            <td>u.Password</td>
-            <td>u.Perm</td>
-            <td>u.Perm</td>
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">
-                    Modificar
-                </button>
-                <button type="button" class="btn btn-danger btn-sm">
-                    Eliminar
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+@rendermode InteractiveServer
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion.CasosDeUsos.Evento
+@inject ServicioLogin Login
+@inject EventoDeportivoListarUseCase Listar
+@inject NavigationManager Navigation
+
+<div class="bg-personas-header rounded p-3">
+    <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
+        <h4 class="m-0 text-white p-2">Listado de Eventos</h4>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-custom">
+                <tr>
+                    <th>ID</th>
+                    <th>Responsable</th>
+                    <th>Cupo maximo</th>
+                    <th>Fecha inicio</th>
+                    <th>Duracion horas</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var evento in eventos)
+                {
+                    <tr>
+                        <td>@evento.Id</td>
+                        <td>@evento.ResponsableId</td>
+                        <td>@evento.CupoMaximo</td>
+                        <td>@evento.FechaHoraInicio</td>
+                        <td>@evento.DuracionHoras</td>
+                        <td>@evento.Nombre</td>
+                        <td>@evento.Descripcion</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(evento.Id)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(evento.Id)">
+                                <i class="bi bi-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.bg-personas-header {
+    background-color: #1c2a29;
+}
+
+.thead-custom {
+    background-color: #478689 ;
+}
+
+.thead-custom th {
+    background-color: #478689 ;
+    color: white ;
+}
+
+
+</style>
+
+@code {
+
+    private List<EventoDeportivo> eventos = new();
+    private Usuario? user;
+
+    private bool primerRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool Render)
+    {
+
+        if (primerRender)
+        {
+            await Task.Delay(10);
+            primerRender = false;
+
+            var user = Login.GetUser();
+
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
+
+            eventos = Listar.Ejecutar();
+            StateHasChanged();
+        }
+    
+    }
+    private void crear()
+    {
+        Navigation.NavigateTo("/evento-crear");
+    }
+
+    private void Modificar(int id)
+    {
+        Navigation.NavigateTo($"/evento-modificar/{id}");
+    }
+
+    private void Eliminar(int id)
+    {
+
+    }
+
+}

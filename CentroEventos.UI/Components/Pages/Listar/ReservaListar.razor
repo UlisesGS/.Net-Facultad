@@ -1,34 +1,111 @@
 @page "/reserva-listar"
 @rendermode InteractiveServer
+@using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion.CasosDeUsos.Reservas
+@using CentroEventos.Aplicacion
+@inject NavigationManager Navigation
+@inject ReservaListarUseCase Listar
+@inject ServicioLogin Login
 
-<h1>Listado de Reservas</h1>
-<button type="button" class="btn btn-success">Crear Reserva</button>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>PersonaId</th>
-            <th>EventoId</th>
-            <th>Fecha Alta</th>
-            <th>Estado Asistencia</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>u.Id</td>
-            <td>u.Nombre</td>
-            <td>u.Apellidoaaaaaaaaa</td>
-            <td>u.Mail</td>
-            <td>u.Password</td>
-            <td>u.Perm</td>
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">
-                    Modificar
-                </button>
-                <button type="button" class="btn btn-danger btn-sm">
-                    Eliminar
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="bg-personas-header rounded p-3">
+    <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
+        <h4 class="m-0 text-white p-2">Listado de Reservas</h4>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-custom">
+                <tr>
+                    <th>ID</th>
+                    <th>Persona ID</th>
+                    <th>Eventos ID</th>
+                    <th>Fecha de Reservas</th>
+                    <th>Estado de Asistencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reserva in reservas)
+                {
+                    <tr>
+                        <td>@reserva.Id</td>
+                        <td>@reserva.PersonaId</td>
+                        <td>@reserva.EventoDeportivoId</td>
+                        <td>@reserva.FechaAltaReserva</td>
+                        <td>@reserva.EstadoAsistencia</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(reserva.Id)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(reserva.Id)">
+                                <i class="bi bi-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.bg-personas-header {
+    background-color: #1c2a29;
+}
+
+.thead-custom {
+    background-color: #478689 ;
+}
+
+.thead-custom th {
+    background-color: #478689 ;
+    color: white ;
+}
+
+
+</style>
+
+@code {
+
+    private List<Reserva> reservas = new();
+    private Usuario? user;
+
+    private bool primerRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool Render)
+    {
+
+        if (primerRender)
+        {
+            await Task.Delay(10);
+            primerRender = false;
+
+            var user = Login.GetUser();
+
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
+
+            reservas = Listar.Ejecutar();
+            StateHasChanged();
+        }
+    
+    }
+    private void crear()
+    {
+        Navigation.NavigateTo("/evento-crear");
+    }
+
+    private void Modificar(int id)
+    {
+        Navigation.NavigateTo($"/evento-modificar/{id}");
+    }
+
+    private void Eliminar(int id)
+    {
+
+    }
+
+}

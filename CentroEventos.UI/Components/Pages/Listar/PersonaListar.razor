@@ -41,10 +41,10 @@
                         <td>@persona.Email</td>
                         <td>@persona.Telefono</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(persona.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" >
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(persona.Id)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -82,24 +82,36 @@
 
     protected override async Task OnAfterRenderAsync(bool Render)
     {
-        await Task.Delay(10);
-        primerRender = false;
+        if(primerRender){
+            await Task.Delay(10);
+            primerRender = false;
 
-        var user = Login.GetUser();
+            var user = Login.GetUser();
 
-        if (user == null)
-        {
-            Navigation.NavigateTo("/", true);
-            return;
-        }
+            if (user == null)
+            {
+                Navigation.NavigateTo("/", true);
+                return;
+            }
 
-        personas = Listar.Ejecutar();
-        StateHasChanged();
+            personas = Listar.Ejecutar();
+            StateHasChanged();
+        }  
     }
 
     private void crear()
     {
         Navigation.NavigateTo("/persona-crear");
+    }
+
+    private void Modificar(int id)
+    {
+        Navigation.NavigateTo($"/persona-modificar/{id}");
+    }
+
+    private void Eliminar(int id)
+    {
+        
     }
 
 }

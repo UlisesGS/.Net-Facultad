@@ -6,6 +6,9 @@ using CentroEventos.Repositorios.repos;
 using CentroEventos.Aplicacion.Interfaces;
 using CentroEventos.Aplicacion.CasosDeUsos.Personas;
 using CentroEventos.Aplicacion.Validadores;
+using CentroEventos.Aplicacion.CasosDeUsos.Evento;
+using CentroEventos.Aplicacion.validadores;
+using CentroEventos.Aplicacion.CasosDeUsos.Reservas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +26,12 @@ builder.Services.AddScoped<UsuarioValidador>();
 builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioLogin>();
-
 builder.Services.AddScoped<IPersonaRepositorio, RepositorioPersona>();
 builder.Services.AddScoped<PersonaValidador>();
-
+builder.Services.AddScoped<IEventoDeportivoRepositorio, RepositorioEvento>();
+builder.Services.AddScoped<EventoDeportivoValidador>();
+builder.Services.AddScoped<IReservaRepositorio, RepositorioReserva>();
+builder.Services.AddScoped<ReservaValidador>();
 // Usuarios
 builder.Services.AddScoped<UsuarioAltaUseCase>();
 builder.Services.AddScoped<UsuarioLoginUseCase>();
@@ -36,6 +41,13 @@ builder.Services.AddScoped<UsuarioListarUseCase>();
 // Personas
 builder.Services.AddScoped<PersonaAltaUseCase>();
 builder.Services.AddScoped<PersonaListarUseCase>();
+
+// Eventos
+builder.Services.AddScoped<EventoDeportivoListarUseCase>();
+
+
+// Reservas
+builder.Services.AddScoped<ReservaListarUseCase>();
 
 var app = builder.Build();
 
