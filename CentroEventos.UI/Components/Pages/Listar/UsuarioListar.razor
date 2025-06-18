@@ -7,6 +7,7 @@
 @using CentroEventos.Aplicacion.Enums
 @inject ServicioLogin Login
 @inject NavigationManager Navigation
+@inject UsuarioBajaUseCase UsuarioBaja
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
@@ -37,7 +38,7 @@
                             <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(usuario.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(usuario.Id)">
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(usuario)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -47,7 +48,26 @@
         </table>
     </div>
 </div>
-
+@if (mostrarModalEliminar && usuarioSeleccionado != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content text-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro que querés eliminar a <strong>@usuarioSeleccionado.Nombre</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="ConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <style>
 .bg-personas-header {
@@ -68,6 +88,8 @@
 
 @code {
     private List<Usuario> usuarios = new();
+    private bool mostrarModalEliminar = false;
+    private Usuario? usuarioSeleccionado;
 
     private bool primerRender = true;
 
@@ -96,9 +118,38 @@
         Navigation.NavigateTo($"/usuario-modificar/{id}");
     }
     
-    private void Eliminar(int id)
+    private void AbrirModalEliminar(Usuario usuario)
     {
-        
+        usuarioSeleccionado = usuario;
+        mostrarModalEliminar = true;
+    }
+
+    private void CancelarEliminar()
+    {
+        mostrarModalEliminar = false;
+        usuarioSeleccionado = null;
     }
     
+    private void ConfirmarEliminar()
+    {
+        try
+        {
+            var user = Login.GetUser();
+            if (usuarioSeleccionado != null)
+            {
+                // Suponiendo que tenés un caso de uso llamado EliminarUsuario
+                UsuarioBaja.Ejecutar(usuarioSeleccionado.Id, user.Id);
+                usuarios.RemoveAll(u => u.Id == usuarioSeleccionado.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        finally
+        {
+            mostrarModalEliminar = false;
+            usuarioSeleccionado = null;
+        }
+    }
 }

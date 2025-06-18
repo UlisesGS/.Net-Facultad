@@ -4,7 +4,7 @@ namespace CentroEventos.Aplicacion
 {
     public class ServicioLogin
     {
-        public Usuario UsuarioLog { get; set; } = null!;
+        public Usuario? UsuarioLog { get; set; } = null!;
 
         public bool EstaLogeado { get; set; } = false;
 
@@ -15,7 +15,7 @@ namespace CentroEventos.Aplicacion
 
         public Usuario GetUser()
         {
-            return UsuarioLog;
+            return UsuarioLog!;
         }
 
         public void Logueado()
@@ -24,6 +24,12 @@ namespace CentroEventos.Aplicacion
         }
 
         public bool UsuarioEstaLogeado() => UsuarioLog != null;
+
+        public void CerrarSesion()
+        {
+            UsuarioLog = null;
+            EstaLogeado = false;
+        }
 
         public int GetId()
         {

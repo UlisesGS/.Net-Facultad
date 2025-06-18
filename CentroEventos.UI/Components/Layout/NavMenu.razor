@@ -1,4 +1,8 @@
-﻿
+﻿@rendermode InteractiveServer
+@using CentroEventos.Aplicacion
+@inject ServicioLogin Login
+@inject NavigationManager Navigation
+
 <div class="sidebar d-flex flex-column">
     <div class="sidebar-header p-3 fs-4 fw-semibold border-bottom border-secondary">
         Centro Eventos
@@ -18,8 +22,51 @@
         <NavLink class="nav-link text-white" href="/usuario-listar">
             <i class="bi bi-person-lines-fill me-2"></i> Usuarios
         </NavLink>
-        <NavLink class="nav-link text-white" href="algo">
-            <i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesion
-        </NavLink>
+        <a class="nav-link text-white" @onclick="AbrirModalCerrarSesion">
+            <i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión
+        </a>
     </nav>
 </div>
+
+@if (mostrarModalCerrarSesion)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content text-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Sesión</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarCerrarSesion"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que querés cerrar sesión?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarCerrarSesion">Cancelar</button>
+                    <a class="btn btn-danger" @onclick="CerrarSesion">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool mostrarModalCerrarSesion = false;
+
+    private void AbrirModalCerrarSesion()
+    {
+        mostrarModalCerrarSesion = true;
+    }
+
+    private void CancelarCerrarSesion()
+    {
+        mostrarModalCerrarSesion = false;
+    }
+
+    private void CerrarSesion()
+    {
+        
+        mostrarModalCerrarSesion = false;
+        Login.CerrarSesion();
+        Navigation.NavigateTo("/");
+    }
+}

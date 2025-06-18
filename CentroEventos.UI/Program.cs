@@ -33,6 +33,7 @@ builder.Services.AddScoped<EventoDeportivoValidador>();
 builder.Services.AddScoped<IReservaRepositorio, RepositorioReserva>();
 builder.Services.AddScoped<ReservaValidador>();
 // Usuarios
+builder.Services.AddScoped<UsuarioBajaUseCase>();
 builder.Services.AddScoped<UsuarioAltaUseCase>();
 builder.Services.AddScoped<UsuarioLoginUseCase>();
 builder.Services.AddScoped<UsuarioBuscarUseCase>();
