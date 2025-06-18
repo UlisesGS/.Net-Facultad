@@ -17,12 +17,7 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
 
-            var personaAux = _repositorioPersona.BuscarPorId(persona.Id);
-
-            if (personaAux == null)
-            {
-                throw new EntidadNotFoundException("ERROR - La persona no existe.");
-            }
+            var personaAux = _repositorioPersona.BuscarPorId(persona.Id) ?? throw new EntidadNotFoundException("ERROR - La persona no existe.");
             //NO PUEDO REPETIR EL VALIDADOR PORQUE PUEDE SER QUE EL EMAIL Y EL DNI SEAN LOS MISMOS
             if (string.IsNullOrWhiteSpace(persona.Nombre))
             {

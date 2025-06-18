@@ -11,11 +11,13 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Reservas
 
         public void Ejecutar(int idReserva, int idUsuario){
 
-            if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.ReservaBaja)){
+            if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.ReservaBaja))
+            {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
 
-            if (!_repositorioReserva.ExistsById(idReserva)) {
+            if (!_repositorioReserva.ExistsById(idReserva))
+            {
                 throw new EntidadNotFoundException("ERROR - La reserva no es valida.");
             }
         
