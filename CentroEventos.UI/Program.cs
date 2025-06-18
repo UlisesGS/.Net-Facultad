@@ -4,6 +4,8 @@ using CentroEventos.Aplicacion;
 using CentroEventos.Repositorios.Data;
 using CentroEventos.Repositorios.repos;
 using CentroEventos.Aplicacion.Interfaces;
+using CentroEventos.Aplicacion.CasosDeUsos.Personas;
+using CentroEventos.Aplicacion.Validadores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +24,21 @@ builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioAutorizacion>();
 builder.Services.AddScoped<ServicioLogin>();
 
+<<<<<<< HEAD
+=======
+builder.Services.AddScoped<IPersonaRepositorio, RepositorioPersona>();
+builder.Services.AddScoped<PersonaValidador>();
+>>>>>>> 378ad689e67da45e0049f25a09395728f93b40f5
 
 // Usuarios
 builder.Services.AddScoped<UsuarioAltaUseCase>();
 builder.Services.AddScoped<UsuarioLoginUseCase>();
 builder.Services.AddScoped<UsuarioBuscarUseCase>();
 builder.Services.AddScoped<UsuarioListarUseCase>();
+
+// Personas
+builder.Services.AddScoped<PersonaAltaUseCase>();
+builder.Services.AddScoped<PersonaListarUseCase>();
 
 var app = builder.Build();
 

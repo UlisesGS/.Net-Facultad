@@ -17,7 +17,7 @@ public interface IUsuarioRepositorio
 
     public List<Usuario> Listar();
 
-    public void OtorgarPermiso(Usuario usuario, EnumPermiso permiso);
+    public void OtorgarPermiso(Usuario usuario, List<EnumPermiso> permisosNuevos);
 
     public bool HayUsuarios();
 

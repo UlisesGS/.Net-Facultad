@@ -1,6 +1,12 @@
 ﻿@page "/persona-listar"
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.CasosDeUsos.Personas
+@using CentroEventos.Aplicacion.Entidades
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
+@inject PersonaListarUseCase Listar
+@inject ServicioLogin ServicioLogin
+
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
@@ -16,29 +22,34 @@
             <thead class="thead-custom">
                 <tr>
                     <th>ID</th>
+                    <th>DNI</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>Mail</th>
-                    <th>Permisos</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
                     <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>u.Id</td>
-                    <td>u.Nombre</td>
-                    <td>u.Apellido</td>
-                    <td>u.Mail</td>
-                    <td>u.Perm</td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm me-1">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm">
-                            <i class="bi bi-archive"></i>
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var persona in personas)
+                {
+                    <tr>
+                        <td>@persona.Id</td>
+                        <td>@persona.DNI</td>
+                        <td>@persona.Nombre</td>
+                        <td>@persona.Apellido</td>
+                        <td>@persona.Email</td>
+                        <td>@persona.Telefono</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm me-1">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" >
+                                <i class="bi bi-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -63,6 +74,15 @@
 </style>
 
 @code {
+
+    private List<Persona> personas = new();
+    private Usuario? user;
+
+    protected override void OnInitialized()
+    {
+        personas = Listar.Ejecutar();
+        user = ServicioLogin.GetUser();
+    }
     private void crear()
     {
         Navigation.NavigateTo("/persona-crear");

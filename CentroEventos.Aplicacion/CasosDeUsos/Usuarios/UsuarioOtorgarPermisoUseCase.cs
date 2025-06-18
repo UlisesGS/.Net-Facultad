@@ -9,7 +9,7 @@ namespace CentroEventos.Aplicacion
         private readonly IUsuarioRepositorio _repositorioUsuario = repoUsuario;
         private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
 
-        public void Ejecutar(int idUsuario, EnumPermiso permiso, int idUsuarioSolicitante)
+        public void Ejecutar(int idUsuario, List<EnumPermiso> permisosNuevos, int idUsuarioSolicitante)
         {
             if (!_servicioAutorizacion.PoseeElPermiso(idUsuarioSolicitante, EnumPermiso.UsuarioOtorgarPermiso))
             {
@@ -18,12 +18,7 @@ namespace CentroEventos.Aplicacion
 
             var usuario = _repositorioUsuario.BuscarPorId(idUsuario) ?? throw new EntidadNotFoundException("ERROR - El usuario no existe.");
 
-            if (usuario.Permisos.Contains(permiso))
-            {
-                throw new ValidacionException("ERROR - El usuario ya posee ese permiso.");
-            }
-
-            _repositorioUsuario.OtorgarPermiso(usuario, permiso);
+            _repositorioUsuario.OtorgarPermiso(usuario, permisosNuevos);
         }
     }
 }

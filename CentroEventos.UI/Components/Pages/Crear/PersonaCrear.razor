@@ -1,50 +1,79 @@
 @page "/persona-crear"
 @rendermode InteractiveServer
-@inject NavigationManager Navigation
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.CasosDeUsos.Personas
 @using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion.Enums
+@inject NavigationManager Navigation
+@inject ServicioLogin ServicioLogin
+@inject ServicioAutorizacion ServicioAutorizacion
+@inject PersonaAltaUseCase Alta
+
 
 <div class="d-flex justify-content-center align-items-start w-100" style="min-height: calc(100vh - 4rem);">
     <div class="formulario-wrapper">
-        <form @onsubmit="HandleSubmit" class="p-0 formulario-con-borde text-white">
+        <EditForm Model="@perAux" OnValidSubmit="HandleSubmit" FormName="crearUsuario" class="p-0 formulario-con-borde text-white">
+            <DataAnnotationsValidator />
             
-            <!-- Título con fondo propio -->
+            @* Mensaje de éxito general *@
+            @if (success)
+            {
+                <div class="alert alert-success">
+                    Persona creada correctamente.
+                </div>
+            }
+
+            @* Mensaje de error genérico *@
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">
+                    @errorMessage
+                </div>
+            }
+
             <div class="form-header p-3 rounded-top">
                 <h1 class="text-center m-0">Crear Persona</h1>
             </div>
 
             <div class="p-4">
                 <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <InputNumber @bind-Value="perAux.DNI" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => perAux.DNI)" />
+                </div>
+
+                <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <InputText id="nombre" class="form-control borde-personalizado text-dark" @bind-Value="persona.Nombre" />
+                    <InputText @bind-Value="perAux.Nombre" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => perAux.Nombre)" />
                 </div>
 
                 <div class="mb-3">
                     <label for="apellido" class="form-label">Apellido</label>
-                    <InputText id="apellido" class="form-control borde-personalizado text-dark" @bind-Value="persona.Apellido" />
+                    <InputText @bind-Value="perAux.Apellido" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => perAux.Apellido)" />
                 </div>
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <InputText id="email" type="email" class="form-control borde-personalizado text-dark" @bind-Value="persona.Email" />
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <InputText @bind-Value="perAux.Email" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => perAux.Email)" />
                 </div>
 
                 <div class="mb-3">
-                    <label for="dni" class="form-label">DNI</label>
-                    <InputNumber id="dni" class="form-control borde-personalizado text-dark" @bind-Value="persona.DNI" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <InputNumber id="telefono" class="form-control borde-personalizado text-dark" @bind-Value="persona.Telefono" />
+                    <label for="telefono" class="form-label">Telefono</label>
+                    <InputNumber type="telefono" @bind-Value="perAux.Telefono" class="form-control borde-personalizado text-dark" />
+                    <ValidationMessage For="@(() => perAux.Telefono)" />
                 </div>
             </div>
-
-            <!-- Footer de botones con fondo distinto -->
+            <!-- Footer con botones alineados -->
+            
             <div class="form-footer bg-footer d-flex gap-2 justify-content-end p-3 rounded-bottom">
-                <button type="submit" class="btn btn-success">Aceptar</button>
-                <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+                <button type="submit" class="btn btn-success">  Aceptar  </button>
+                <button type="button" class="btn btn-danger" @onclick="() => Cancelar()">Cancelar</button>
             </div>
-        </form>
+            
+        </EditForm>
     </div>
 </div>
 
@@ -63,8 +92,10 @@
 }
 
 .formulario-con-borde .form-label {
-    color: white;
-}
+    using CentroEventos.Aplicacion;
+#line default
+ng CentroEventos.Aplicacion.CasosDeUsos.Personas;
+#line default
 
 .borde-personalizado {
     border: 2px solid #1c2a29 ;
@@ -84,14 +115,44 @@
 
 
 @code {
-    Persona persona = new Persona();
-    private void Cancelar()
-    {
-        Navigation.NavigateTo("/persona-listar");
-    }
-    private Task HandleSubmit()
-    {
+    private string? errorMessage;
+    private bool success;
+    private Persona perAux = new Persona();
+    private Usuario? user;
+    
+    
 
-        return Task.CompletedTask;
+
+    private void Cancelar() => Navigation.NavigateTo("/persona-listar");
+    private async Task HandleSubmit()
+    {
+        success = false;
+        errorMessage = null;
+
+        try
+        {
+            
+            user = ServicioLogin.GetUser();
+            if (user == null)
+            {
+                Navigation.NavigateTo("/");
+                return;
+            }
+
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
+            {
+                Navigation.NavigateTo("/no-autorizado");
+                return;
+            }
+
+            Alta.Ejecutar(perAux, user!.Id);
+            success = true;
+            await Task.Delay(1000);
+            Navigation.NavigateTo("/persona-listar");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 }
