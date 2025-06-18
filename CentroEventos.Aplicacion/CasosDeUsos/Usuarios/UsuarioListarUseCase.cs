@@ -10,11 +10,11 @@ namespace CentroEventos.Aplicacion
         private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
         public List<Usuario> Ejecutar(int idUsuario)
         {
-            if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioListar))
+            if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioListar))
             {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }
-
+            
             return _repositorioUsuario.Listar();
         }
     }

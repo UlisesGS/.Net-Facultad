@@ -1,4 +1,4 @@
-﻿namespace CentroEventos.Repositorios.repos;
+﻿/* namespace CentroEventos.Repositorios.repos;
 
 using System.Collections.Generic;
 using CentroEventos.Aplicacion;
@@ -91,3 +91,4 @@ public class RepositorioPersona(DataContext db) : IPersonaRepositorio
         }
     }
 }
+ */

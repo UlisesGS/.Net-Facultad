@@ -19,13 +19,22 @@ namespace CentroEventos.Aplicacion
             {
                 throw new EntidadNotFoundException("ERROR - No se pudo obtener el usuario.");
             }
-
             return usuario;
         }
 
         public void Logueado()
         {
             EstaLogeado = true;
+        }
+
+        public int GetId()
+        {
+            if (usuario != null)
+            {
+                return usuario.Id;
+            }
+
+            return 0;
         }
 
     }

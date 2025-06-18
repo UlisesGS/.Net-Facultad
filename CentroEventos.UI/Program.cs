@@ -21,10 +21,14 @@ options.UseSqlite("Data Source=database.sqlite"));
 //Inyeccion de dependencias Services
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
 builder.Services.AddScoped<UsuarioValidador>();
-builder.Services.AddScoped<IServicioAutorizacion,ServicioAutorizacion>();
+builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
+builder.Services.AddScoped<ServicioLogin>();
 
 // Usuarios
 builder.Services.AddScoped<UsuarioAltaUseCase>();
+builder.Services.AddScoped<UsuarioLoginUseCase>();
+builder.Services.AddScoped<UsuarioBuscarUseCase>();
+builder.Services.AddScoped<UsuarioListarUseCase>();
 
 var app = builder.Build();
 

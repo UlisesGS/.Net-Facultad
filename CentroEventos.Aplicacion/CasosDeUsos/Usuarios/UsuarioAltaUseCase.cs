@@ -16,20 +16,18 @@ namespace CentroEventos.Aplicacion
                 throw new ValidacionException(mensajeError);
             }
 
-
             if (!_repositorioUsuario.HayUsuarios())
             {
                 usuario.Permisos = Enum.GetValues<EnumPermiso>().ToList();
             }
             else
             {
-
+                Console.WriteLine("ESTAMOS ACA");
                 if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioAlta))
                 {
                     throw new FalloAutorizacionException("ERROR - No estás autorizado.");
                 }
             }
-
             usuario.HashPassword = Hasheador.Hashear(usuario.HashPassword!);
 
             _repositorioUsuario.Agregar(usuario);

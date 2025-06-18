@@ -14,6 +14,7 @@ public class ServicioAutorizacion : IServicioAutorizacion
 
     public bool PoseeElPermiso(int IdUsuario, EnumPermiso permiso)
     {
+        
         var usuario = _repositorioUsuario.BuscarPorId(IdUsuario) ?? throw new EntidadNotFoundException("ERROR - El usuario no existe.");
         
         return usuario.Permisos.Contains(permiso);

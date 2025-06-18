@@ -1,30 +1,102 @@
 @page "/"
 @attribute [Layout(typeof(EmptyLayout))]
+@rendermode InteractiveServer
+@using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion
+@inject UsuarioLoginUseCase UsuarioLogin
+@inject UsuarioBuscarUseCase UsuarioBuscar
+@inject ServicioLogin ServicioLogin
 @inject NavigationManager Navigation
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-        <h3 class="text-center mb-4">Iniciar Sesión</h3>
+    <div class="formulario-wrapper formulario-con-borde text-white" style="max-width: 400px;"> <!-- Más angosto -->
 
-        <form>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo" />
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" />
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        </form>
-
-        <div class="text-center mt-3">
-            ¿No tenés cuenta?
-            <a href="/Registro">Registrate</a>
+        <!-- Header del formulario -->
+        <div class="form-header p-3 rounded-top">
+            <h3 class="text-center m-0">INICIAR SESION</h3>
         </div>
+
+        <div class="p-4">
+            <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="loginForm">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <InputText @bind-Value="usAux.Email" class="form-control borde-personalizado text-dark" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <InputText type="password" @bind-Value="usAux.HashPassword" class="form-control borde-personalizado text-dark" />
+                </div>
+
+                <div class="form-footer d-flex justify-content-between align-items-center p-2 rounded-bottom">
+                    <div>
+                        <span class="text-white d-block">¿Ya tenés cuenta?</span>
+                        <a href="/registro" class="btn btn-warning btn-sm mt-2 ms-3">Registrarse</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Iniciar</button>
+                </div>
+
+            </EditForm>
+        </div>
+
     </div>
 </div>
 
 
+<style>
+.formulario-wrapper {
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29;
+    border-radius: 12px;
+}
+
+.form-header {
+    background-color: #478689;
+}
+
+.bg-footer {
+    background-color: #478689;
+}
+
+</style>
+
+
+@code {
+
+    private Usuario usAux = new Usuario();
+
+    void HandleSubmit()
+    {   
+        Console.WriteLine($"Datos recibidos - ema: {usAux.Email}, pas: {usAux.HashPassword}");
+        if(UsuarioLogin.Ejecutar(usAux.Email,usAux.HashPassword))
+        {
+            Usuario usuario = UsuarioBuscar.Ejecutar(usAux.Email);
+            if(usuario != null)
+            {
+                ServicioLogin.SetUser(usuario);
+                ServicioLogin.Logueado();
+                Navigation.NavigateTo("/persona-listar");
+
+            }
+        }
+
+    
+    }
+
+}
