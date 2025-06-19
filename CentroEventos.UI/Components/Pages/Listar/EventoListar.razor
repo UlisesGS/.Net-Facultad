@@ -5,6 +5,7 @@
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion.CasosDeUsos.Evento
 @using CentroEventos.UI.Components.Pages.Crear
+@using CentroEventos.Aplicacion.Enums
 @inject ServicioLogin Login
 @inject EventoDeportivoBuscarPorIdUseCase BuscarId
 @inject EventoDeportivoListarUseCase Listar
@@ -14,11 +15,19 @@
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Eventos</h4>
-        <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
-            <i class="bi bi-plus-circle me-1"></i> Crear Evento
-        </button>
+        @if(!permisoAlta)
+        {
+            <button type="button" class="btn btn-success mt-2" disabled>
+                <i class="bi bi-plus-circle me-1"></i> Crear Evento
+            </button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
+                <i class="bi bi-plus-circle me-1"></i> Crear Evento
+            </button>
+        }
     </div>
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead class="thead-custom">
@@ -50,12 +59,31 @@
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(evento)">
-                                <i class="bi bi-archive"></i>
-                            </button>
+                            @if(!permisoModificar)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            @if(!permisoBaja)
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" disabled>
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(evento)">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            
                         </td>
                     </tr>
                 }
@@ -180,11 +208,15 @@
 
     private List<EventoDeportivo> eventos = new();
     private EventoDeportivo? eventoSeleccionado;
+
+    private int idLog = 0;
     private bool mostrarModalCrear = false;
     private bool mostrarModalModificar = false;
     private bool mostrarModalEliminar = false;
     private bool primerRender = true;
-
+    private bool permisoAlta = false;
+    private bool permisoBaja = false;
+    private bool permisoModificar = false;
     private bool mostrarModalDescripcion = false;
     private string descripcionSeleccionada = string.Empty;
         private string? errorEliminar = null;
@@ -203,7 +235,21 @@
                 Navigation.NavigateTo("/", true);
                 return;
             }
-
+            foreach(EnumPermiso enumPermiso in user.Permisos)
+            {
+                if(enumPermiso == EnumPermiso.PersonaAlta)
+                {
+                    permisoAlta = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaBaja)
+                {
+                    permisoBaja = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaModificacion)
+                {
+                    permisoModificar = true;
+                }
+            }
             eventos = Listar.Ejecutar();
             StateHasChanged();
         }
