@@ -43,7 +43,7 @@ namespace CentroEventos.Aplicacion.validadores
 
             if (evento.DuracionHoras <= 0)
             {
-                mensajeError = "ERROR - La hora debe ser mayor a 0.";
+                mensajeError = "ERROR - La duracion del evento debe ser mayor a 0.";
                 return false;
             }
 

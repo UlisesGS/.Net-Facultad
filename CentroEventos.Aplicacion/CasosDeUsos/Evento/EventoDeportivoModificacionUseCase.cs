@@ -6,14 +6,14 @@ using CentroEventos.Aplicacion.validadores;
 
 namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
 {
-    public class EventoDeportivoModificacionUseCase(IEventoDeportivoRepositorio repoEvento, IPersonaRepositorio repoPersona, IServicioAutorizacion servicioAutorizacion){
+    public class EventoDeportivoModificacionUseCase(IEventoDeportivoRepositorio repoEvento, EventoDeportivoValidador validador, IServicioAutorizacion servicioAutorizacion){
             private readonly IEventoDeportivoRepositorio _repositorioEvento = repoEvento;
-            private readonly IPersonaRepositorio _repositorioPersona = repoPersona;
             private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
-
+            private readonly EventoDeportivoValidador _validador = validador;
             public void Ejecutar(EventoDeportivo evento, int idUsuario){
 
-                if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.EventoModificacion)){
+                if(!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.EventoModificacion))
+                {
                     throw new FalloAutorizacionException("ERROR - No estas autorizado.");
                 }
                 
@@ -24,18 +24,12 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
                     throw new OperacionInvalidaException("ERROR - La fecha expiro.");
                 }
 
-                if(evento.FechaHoraInicio < DateTime.Now)
+                if(!_validador.Validar(evento, out string mensajeError))
                 {
-                    throw new OperacionInvalidaException("ERROR - La fecha tiene que ser posterior al actual");
-                }
-
-                if(_repositorioPersona.ExistsById(evento.ResponsableId))
-                {
-                    throw new OperacionInvalidaException("ERROR - El Responsable no es valido.");
+                    throw new OperacionInvalidaException(mensajeError);
                 }
 
                 _repositorioEvento.Modificar(evento);
-            
             }
     }
 }
