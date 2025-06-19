@@ -44,8 +44,18 @@ public class RepositorioEvento(DataContext db) : IEventoDeportivoRepositorio
 
     public void Modificar(EventoDeportivo evento)
     {
-        db.EventosDeportivos.Update(evento);
-        db.SaveChanges();
+        var original = db.EventosDeportivos.Find(evento.Id);
+
+        if (original != null)
+        {
+            original.ResponsableId = evento.ResponsableId;
+            original.CupoMaximo = evento.CupoMaximo;
+            original.FechaHoraInicio = evento.FechaHoraInicio;
+            original.DuracionHoras = evento.DuracionHoras;
+            original.Nombre = evento.Nombre;
+            original.Descripcion = evento.Descripcion;
+            db.SaveChanges();
+        }
     }
 
     public List<EventoDeportivo> ListarFechaFutura()
