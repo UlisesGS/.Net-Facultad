@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="modal-footer bg-footer">
-                    <button class="btn btn-secondary" type="button" @onclick="Cerrar">Cancelar</button>
+                    <button class="btn btn-danger" type="button" @onclick="Cerrar">Cancelar</button>
                     <button class="btn btn-success" type="submit">Guardar</button>
                 </div>               
             </EditForm>
@@ -108,7 +108,6 @@
     [Parameter] public bool Mostrar { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
 
-    private string? hora;
     private string? errorMessage;
 
     private string fechaHoraInicioString = "";

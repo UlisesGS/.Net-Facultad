@@ -32,15 +32,15 @@
 {
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
         <div class="modal-dialog">
-            <div class="modal-content text-dark">
-                <div class="modal-header">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-white">
+                <div class="modal-header form-header">
                     <h5 class="modal-title">Cerrar Sesión</h5>
                     <button type="button" class="btn-close" @onclick="CancelarCerrarSesion"></button>
                 </div>
                 <div class="modal-body">
                     <p>¿Estás seguro de que querés cerrar sesión?</p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarCerrarSesion">Cancelar</button>
                     <a class="btn btn-danger" @onclick="CerrarSesion">Cerrar sesión</a>
                 </div>
@@ -48,6 +48,39 @@
         </div>
     </div>
 }
+
+<style>
+.formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29;
+    border-radius: 12px;
+}
+
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
+</style>
 
 @code {
     private bool mostrarModalCerrarSesion = false;

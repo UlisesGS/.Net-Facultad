@@ -43,7 +43,12 @@
                         <td>@evento.FechaHoraInicio</td>
                         <td>@evento.DuracionHoras</td>
                         <td>@evento.Nombre</td>
-                        <td>@evento.Descripcion</td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirDescripcion(evento.Descripcion)">
+                                Ver Descripcion
+                                <i class="bi bi-question-circle ms-2"></i>
+                            </button>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
                                 <i class="bi bi-pencil-square"></i>
@@ -58,6 +63,26 @@
         </table>
     </div>
 </div>
+
+@if (mostrarModalDescripcion)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">Descripción completa</h5>
+                    <button type="button" class="btn-close" @onclick="CerrarModalDescripcion"></button>
+                </div>
+                <div class="modal-body text-white" style="overflow-y: auto;">
+                    <textarea class="form-control" readonly rows="10" style="resize: none;">@descripcionSeleccionada</textarea>
+                </div>
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-danger" @onclick="CerrarModalDescripcion">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @if (mostrarModalCrear)
 {
@@ -106,7 +131,12 @@
     color: white ;
 }
 
-
+.descripcion-celda {
+    max-width: 200px; /* Ajustalo como quieras */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 
 @code {
@@ -118,6 +148,8 @@
     private bool mostrarModalEliminar = false;
     private bool primerRender = true;
 
+    private bool mostrarModalDescripcion = false;
+    private string descripcionSeleccionada = string.Empty;
     protected override async Task OnAfterRenderAsync(bool Render)
     {
 
@@ -202,5 +234,17 @@
         mostrarModalModificar = false;
         eventos = Listar.Ejecutar();
         return Task.CompletedTask;
+    }
+
+    private void AbrirDescripcion(string descripcion)
+    {
+        descripcionSeleccionada = descripcion;
+        mostrarModalDescripcion = true;
+    }
+
+    private void CerrarModalDescripcion()
+    {
+        mostrarModalDescripcion = false;
+        descripcionSeleccionada = string.Empty;
     }
 }

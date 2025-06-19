@@ -40,7 +40,7 @@
                         <td>
                             <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
                                 Ver Permisos
-                                <i class="bi bi-info-square ms-2"></i>
+                                <i class="bi  bi-exclamation-circle ms-2"></i>
                             </button>
                         </td>
                         <td>
@@ -117,7 +117,7 @@
                     <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
                 </div>
                 <div class="modal-body text-white">
-                    <p>¿Estás seguro que querés eliminar a <strong>@usuarioSeleccionado.Nombre</strong>?</p>
+                    <p>¿Estás seguro que querés eliminar a <strong>@usuarioSeleccionado.Nombre @usuarioSeleccionado.Apellido</strong>?</p>
                 </div>
                 <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
