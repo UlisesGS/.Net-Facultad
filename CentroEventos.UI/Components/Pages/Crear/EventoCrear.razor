@@ -38,8 +38,10 @@
                         <ValidationMessage For="@(() => eventoAux.CupoMaximo)" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">FechaHoraInicio</label>
-                        <InputDate @bind-Value="eventoAux.FechaHoraInicio" class="form-control borde-personalizado" />
+                        <label class="form-label">Fecha y Hora de Inicio</label>
+                        <InputText type="datetime-local"
+                                class="form-control borde-personalizado"
+                                @bind-Value="fechaHoraInicioString"/>
                         <ValidationMessage For="@(() => eventoAux.FechaHoraInicio)" />
                     </div>
                     <div class="mb-3">
@@ -106,7 +108,18 @@
     [Parameter] public bool Mostrar { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
 
+    private string? hora;
     private string? errorMessage;
+
+    private string fechaHoraInicioString = "";
+
+    protected override void OnInitialized()
+    {
+        if (eventoAux.FechaHoraInicio != default)
+        {
+            fechaHoraInicioString = eventoAux.FechaHoraInicio.ToString("yyyy-MM-ddTHH:mm");
+        }
+    }
 
     private async Task HandleSubmit()
     {
@@ -127,15 +140,18 @@
                 return;
             }
 
-            if (eventoAux!.Id == 0)
+            if (DateTime.TryParse(fechaHoraInicioString, out var fechaHora))
             {
-                Alta.Ejecutar(eventoAux, user.Id);
+                eventoAux.FechaHoraInicio = fechaHora;
+                if (eventoAux!.Id == 0)
+                {
+                    Alta.Ejecutar(eventoAux, user.Id);
+                }
+                else
+                {
+                    Modificar.Ejecutar(eventoAux, user.Id);
+                }
             }
-            else
-            {
-                Modificar.Ejecutar(eventoAux, user.Id);
-            }
-
             await Cerrar();
         }
         catch (Exception ex)

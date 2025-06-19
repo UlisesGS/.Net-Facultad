@@ -44,15 +44,27 @@
                             </button>
                         </td>
                         <td>
-                            @if(!permisoModificar)
+                            @if (idLog == idAdmin)
                             {
-                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             }
-                            else
+                            else if(permisoModificar && usuario.Id != idAdmin)
                             {
                                 <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else if(!permisoModificar && usuario.Id == idLog)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else 
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             }
@@ -87,7 +99,7 @@
         PermisosDisponibles="@permisosDisponibles"
         PermisosSeleccionados="@permisosSeleccionados"
         OnClose="@CerrarModalPermisos"
-        OnGuardar="@GuardarPermisos" />
+        idLog="@idLog"/>
 }
 
 @if (mostrarModal && usuarioSeleccionado != null)
@@ -167,15 +179,18 @@
 
 @code {
     private List<Usuario> usuarios = new();
+        private List<Usuario> usuariosOriginal = new();
     private bool mostrarModalEliminar = false;
 
     private bool mostrarModal = false;
     private Usuario? usuarioSeleccionado;
     private int idLog = 0;
+    private int idAdmin=0;
     private bool primerRender = true;
     private bool permisoModificar=false;
     private bool permisoBaja=false;
     private bool permisoVer=false;
+    private bool permisoOtorgar=false;
     private bool mostrarModalPermisos = false;
     
     private List<EnumPermiso> permisosDisponibles = Enum.GetValues<EnumPermiso>().ToList();
@@ -208,16 +223,22 @@
                 } else if (enumPermiso==EnumPermiso.UsuarioGestion)
                 {
                     permisoVer=true;
+                } else if(enumPermiso == EnumPermiso.UsuarioOtorgarPermiso)
+                {
+                    permisoOtorgar=true;
                 }
             }
-
+            usuariosOriginal= Listar.Ejecutar();
+            idAdmin = usuariosOriginal.First().Id;
             if(permisoVer)
             {
                 usuarios = Listar.Ejecutar();
+                
             }else{
                 usuarios.Add(user);
             }
-
+            Console.WriteLine("ACA "+ idAdmin);
+            Console.WriteLine("ACA "+ idLog);
             StateHasChanged();
         }
     }
@@ -273,34 +294,50 @@
     private Task CerrarModal()
     {
         mostrarModal = false;
-        usuarios = Listar.Ejecutar();
+        var user = Login.GetUser();
+
+        if(permisoVer)
+        {
+            usuarios = Listar.Ejecutar();
+        }
+
         return Task.CompletedTask;
     }
 
 
     private void AbrirModalPermisos(int id)
     {
-        Console.WriteLine("ALOOOOOOOOOOOO 1");
-        var usuario = UsuarioBuscarId.Ejecutar(id);
-        usuarioSeleccionado = usuario;
-        permisosSeleccionados = usuario.Permisos.ToList();
-        Console.WriteLine("ALOOOOOOOOOOOO 2");
-        mostrarModalPermisos = true;
+        if(permisoOtorgar)
+        {
+            var usuario = UsuarioBuscarId.Ejecutar(id);
+            usuarioSeleccionado = usuario;
+            permisosSeleccionados = usuario.Permisos.ToList();
+            mostrarModalPermisos = true;
+        }
     }
 
     private Task CerrarModalPermisos()
     {
+        
         mostrarModalPermisos = false;
         usuarioSeleccionado = null;
-        return Task.CompletedTask;
-    }
 
-    private Task GuardarPermisos(List<EnumPermiso> nuevosPermisos)
-    {
-        if (usuarioSeleccionado != null)
+        var user = UsuarioBuscarId.Ejecutar(idLog); 
+
+        if (user.Permisos.Contains(EnumPermiso.UsuarioGestion))
         {
-            usuarioSeleccionado.Permisos = nuevosPermisos;
+            usuariosOriginal = Listar.Ejecutar(); 
+            usuarios = usuariosOriginal;
         }
+        else
+        {
+            usuarios.Clear();
+            usuarios.Add(user);
+        }
+        
+        
+        
         return Task.CompletedTask;
     }
+    
 }

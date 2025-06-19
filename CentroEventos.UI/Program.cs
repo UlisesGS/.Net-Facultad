@@ -40,7 +40,7 @@ builder.Services.AddScoped<UsuarioBuscarUseCase>();
 builder.Services.AddScoped<UsuarioListarUseCase>();
 builder.Services.AddScoped<UsuarioBuscarIdUseCase>();
 builder.Services.AddScoped<UsuarioModificacionUseCase>();
-
+builder.Services.AddScoped<UsuarioOtorgarPermisoUseCase>();
 
 
 // Personas

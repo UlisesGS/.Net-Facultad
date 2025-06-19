@@ -12,7 +12,7 @@ namespace CentroEventos.Aplicacion
 
         public void Ejecutar(Usuario usuario, int idUsuario)
         {
-            if (!_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioModificacion))
+            if (usuario.Id != idUsuario && !_servicioAutorizacion.PoseeElPermiso(idUsuario, EnumPermiso.UsuarioModificacion))
             {
                 throw new FalloAutorizacionException("ERROR - No estas autorizado.");
             }

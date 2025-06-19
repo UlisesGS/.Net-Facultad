@@ -2,7 +2,7 @@
 @using CentroEventos.Aplicacion.Enums
 @using CentroEventos.Aplicacion
 @using CentroEventos.Aplicacion.Entidades
-
+@inject UsuarioOtorgarPermisoUseCase UsuarioOtorgarPermiso
 @namespace CentroEventos.UI.Components.Pages.Usuarios
 
 <div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
@@ -82,7 +82,8 @@
     [Parameter] public List<EnumPermiso> PermisosSeleccionados { get; set; } = new();
 
     [Parameter] public EventCallback OnClose { get; set; }
-    [Parameter] public EventCallback<List<EnumPermiso>> OnGuardar { get; set; }
+
+    [Parameter] public int idLog { get; set; }
 
     private void TogglePermiso(EnumPermiso permiso)
     {
@@ -103,7 +104,8 @@
 
     private async Task Guardar()
     {
-        await OnGuardar.InvokeAsync(PermisosSeleccionados);
+        Console.WriteLine("EL ID "+idLog);
+        UsuarioOtorgarPermiso.Ejecutar(Usuario!.Id, PermisosSeleccionados,idLog);
         await Cerrar();
     }
 }

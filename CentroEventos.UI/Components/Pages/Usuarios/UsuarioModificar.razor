@@ -116,12 +116,6 @@
                 return;
             }
 
-            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
-            {
-                Navigation.NavigateTo("/no-autorizado");
-                return;
-            }
-
             Modificar.Ejecutar(usAux, user.Id);
             await Cerrar();
         }
