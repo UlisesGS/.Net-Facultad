@@ -1,0 +1,76 @@
+@rendermode InteractiveServer
+@using CentroEventos.Aplicacion.Enums
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.Entidades
+
+@namespace CentroEventos.UI.Components.Pages.Usuarios
+
+<div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+            <div class="modal-header form-header">
+                <h5 class="modal-title">Permisos de @Usuario?.Nombre @Usuario?.Apellido</h5>
+                <button type="button" class="btn-close" @onclick="Cerrar"></button>
+            </div>
+            <div class="modal-body text-white">
+                @if (PermisosDisponibles != null)
+                {
+                    <div class="row">
+                        @foreach (var permiso in PermisosDisponibles)
+                        {
+                            <div class="col-6 col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                            id="@permiso.ToString()"
+                                            checked="@PermisosSeleccionados.Contains(permiso)"
+                                            @onchange="@(() => TogglePermiso(permiso))" />
+                                    <label class="form-check-label" for="@permiso.ToString()">
+                                        @permiso.ToString()
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="modal-footer bg-footer">
+                <button class="btn btn-secondary" @onclick="Cerrar">Cancelar</button>
+                <button class="btn btn-success" @onclick="Guardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public bool Mostrar { get; set; }
+    [Parameter] public Usuario? Usuario { get; set; }
+    [Parameter] public List<EnumPermiso> PermisosDisponibles { get; set; } = new();
+    [Parameter] public List<EnumPermiso> PermisosSeleccionados { get; set; } = new();
+
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback<List<EnumPermiso>> OnGuardar { get; set; }
+
+    private void TogglePermiso(EnumPermiso permiso)
+    {
+        if (PermisosSeleccionados.Contains(permiso))
+        {
+            PermisosSeleccionados.Remove(permiso);
+        }
+        else
+        {
+            PermisosSeleccionados.Add(permiso);
+        }
+    }
+
+    private async Task Cerrar()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+    private async Task Guardar()
+    {
+        await OnGuardar.InvokeAsync(PermisosSeleccionados);
+        await Cerrar();
+    }
+}

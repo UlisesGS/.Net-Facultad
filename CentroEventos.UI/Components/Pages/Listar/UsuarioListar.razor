@@ -1,7 +1,7 @@
 @page "/usuario-listar"
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion
-@using CentroEventos.UI.Components.Pages.Modificar
+@using CentroEventos.UI.Components.Pages.Usuarios
 @inject UsuarioListarUseCase Listar
 @inject ServicioAutorizacion ServicioAutorizacion
 @inject UsuarioBuscarIdUseCase UsuarioBuscarId
@@ -25,6 +25,7 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
+                    <th>Permisos</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -37,12 +38,39 @@
                         <td>@usuario.Apellido</td>
                         <td>@usuario.Email</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
-                                <i class="bi bi-pencil-square"></i>
+                            <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
+                                Ver Permisos
+                                <i class="bi bi-info-square ms-2"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(usuario)">
-                                <i class="bi bi-archive"></i>
-                            </button>
+                        </td>
+                        <td>
+                            @if(!permisoModificar)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+
+
+                            @if(!permisoBaja || usuario.Id==idLog)
+                            {
+                                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(usuario)">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            
                         </td>
                     </tr>
                 }
@@ -50,6 +78,17 @@
         </table>
     </div>
 </div>
+
+@if (mostrarModalPermisos && usuarioSeleccionado != null)
+{
+    <UsuarioPermisos 
+        Mostrar="@mostrarModalPermisos"
+        Usuario="@usuarioSeleccionado"
+        PermisosDisponibles="@permisosDisponibles"
+        PermisosSeleccionados="@permisosSeleccionados"
+        OnClose="@CerrarModalPermisos"
+        OnGuardar="@GuardarPermisos" />
+}
 
 @if (mostrarModal && usuarioSeleccionado != null)
 {
@@ -88,8 +127,9 @@
 
 .thead-custom th {
     background-color: #478689 ;
-    color: white ;
-}
+    using System.Diagnostics.Eventing.Reader;
+#line default
+
 
    .formulario-wrapper {
     max-width: 600px;
@@ -131,8 +171,17 @@
 
     private bool mostrarModal = false;
     private Usuario? usuarioSeleccionado;
-
+    private int idLog = 0;
     private bool primerRender = true;
+
+    private bool permisoAlta=false;
+    private bool permisoModificar=false;
+    private bool permisoBaja=false;
+    private bool permisoVer=false;
+
+    private bool mostrarModalPermisos = false;
+    private List<EnumPermiso> permisosDisponibles = Enum.GetValues<EnumPermiso>().ToList();
+    private List<EnumPermiso> permisosSeleccionados = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -149,7 +198,31 @@
                 Navigation.NavigateTo("/", true);
                 return;
             }
-            usuarios = Listar.Ejecutar();
+            idLog=user.Id;
+            foreach (EnumPermiso enumPermiso in user.Permisos)
+            {
+                if(enumPermiso==EnumPermiso.UsuarioAlta)
+                {
+                    permisoAlta=true;
+                }else if (enumPermiso==EnumPermiso.UsuarioBaja)
+                {
+                    permisoBaja=true;
+                }else if (enumPermiso==EnumPermiso.UsuarioModificacion)
+                {
+                    permisoModificar=true;
+                } else if (enumPermiso==EnumPermiso.UsuarioGestion)
+                {
+                    permisoVer=true;
+                }
+            }
+
+            if(permisoVer)
+            {
+                usuarios = Listar.Ejecutar();
+            }else{
+                usuarios.Add(user);
+            }
+
             StateHasChanged();
         }
     }
@@ -206,6 +279,33 @@
     {
         mostrarModal = false;
         usuarios = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
+
+
+    private void AbrirModalPermisos(int id)
+    {
+        Console.WriteLine("ALOOOOOOOOOOOO 1");
+        var usuario = UsuarioBuscarId.Ejecutar(id);
+        usuarioSeleccionado = usuario;
+        permisosSeleccionados = usuario.Permisos.ToList();
+        Console.WriteLine("ALOOOOOOOOOOOO 2");
+        mostrarModalPermisos = true;
+    }
+
+    private Task CerrarModalPermisos()
+    {
+        mostrarModalPermisos = false;
+        usuarioSeleccionado = null;
+        return Task.CompletedTask;
+    }
+
+    private Task GuardarPermisos(List<EnumPermiso> nuevosPermisos)
+    {
+        if (usuarioSeleccionado != null)
+        {
+            usuarioSeleccionado.Permisos = nuevosPermisos;
+        }
         return Task.CompletedTask;
     }
 }

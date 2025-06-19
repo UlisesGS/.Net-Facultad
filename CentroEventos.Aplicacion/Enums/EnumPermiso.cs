@@ -14,6 +14,7 @@
         UsuarioAlta,
         UsuarioModificacion,
         UsuarioBaja,
+        UsuarioGestion,
         UsuarioOtorgarPermiso
     }
 }
