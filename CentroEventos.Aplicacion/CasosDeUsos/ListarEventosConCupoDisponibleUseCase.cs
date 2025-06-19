@@ -2,7 +2,7 @@
 using CentroEventos.Aplicacion.Excepciones;
 using CentroEventos.Aplicacion.Interfaces;
 
-namespace CentroEventos.Aplicacion.CasosDeUsos
+namespace CentroEventos.Aplicacion
 {
 
     public class ListarEventosConCupoDisponibleUseCase(IReservaRepositorio repoReserva, IEventoDeportivoRepositorio repoEvento){
