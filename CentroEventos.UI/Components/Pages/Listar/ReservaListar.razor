@@ -196,15 +196,15 @@
             idLog = user.Id;
             foreach(EnumPermiso enumPermiso in user.Permisos)
             {
-                if(enumPermiso == EnumPermiso.PersonaAlta)
+                if(enumPermiso == EnumPermiso.ReservaAlta)
                 {
                     permisoAlta = true;
                 }
-                else if(enumPermiso == EnumPermiso.PersonaBaja)
+                else if(enumPermiso == EnumPermiso.ReservaBaja)
                 {
                     permisoBaja = true;
                 }
-                else if(enumPermiso == EnumPermiso.PersonaModificacion)
+                else if(enumPermiso == EnumPermiso.ReservaModificacion)
                 {
                     permisoModificar = true;
                 }
