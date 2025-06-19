@@ -104,6 +104,12 @@
                 </div>
                 <div class="modal-body text-white">
                     <p>¿Estás seguro que querés eliminar la Reserva?</p>
+                    @if (!string.IsNullOrEmpty(errorEliminar))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @errorEliminar
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
@@ -125,11 +131,9 @@
 
 .thead-custom th {
     background-color: #478689 ;
-    color: white ;
 }
-using CentroEventos.Aplicacion.Enums;
-#line default
-formulario-wrapper {
+
+.formulario-wrapper {
     max-width: 600px;
     width: 100%;
 }
@@ -174,7 +178,7 @@ formulario-wrapper {
     private bool permisoAlta = false;
     private bool permisoBaja = false;
     private bool permisoModificar = false;
-
+    private string? errorEliminar = null;
     protected override async Task OnAfterRenderAsync(bool Render)
     {
         if (primerRender)
@@ -239,6 +243,7 @@ formulario-wrapper {
 
     private void ConfirmarEliminar()
     {
+        errorEliminar = null;
         try
         {
             var user = Login.GetUser();
@@ -246,16 +251,14 @@ formulario-wrapper {
             {
                 Baja.Ejecutar(reservaSeleccionada.Id, user.Id);
                 reservas.RemoveAll(p => p.Id == reservaSeleccionada.Id);
+                mostrarModalEliminar = false;
+                reservaSeleccionada = null;
             }
         }
         catch (Exception ex)
         {
+            errorEliminar = $"Error al eliminar: {ex.Message}";
             Console.WriteLine($"ERROR: {ex.Message}");
-        }
-        finally
-        {
-            mostrarModalEliminar = false;
-            reservaSeleccionada = null;
         }
     }
 
