@@ -28,78 +28,85 @@
         }
     </div>
     <div class="table-responsive">
-        <table class="table table-striped">
-            <thead class="thead-custom">
-                <tr>
-                    <th>ID</th>
-                    <th>Persona ID</th>
-                    <th>Eventos ID</th>
-                    <th>Fecha de Reservas</th>
-                    <th>Estado de Asistencia</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var reserva in reservas)
-                {
+        @if(reservas.Any())
+        {
+            <table class="table table-striped">
+                <thead class="thead-custom">
                     <tr>
-                        <td>@reserva.Id</td>
-                        <td>@reserva.PersonaId</td>
-                        <td>@reserva.EventoDeportivoId</td>
-                        <td>@reserva.FechaAltaReserva</td>
-                        <td>
-                            @if(reserva.EstadoAsistencia==EnumEstadoAsistencia.ausente)
-                            {
-                                <button class="btn btn-danger btn-sm me-1">AUSENTE
-                                    <i class="bi bi-x-circle ms-2"></i>
-                                </button>
-
-                            }
-                            else if(reserva.EstadoAsistencia==EnumEstadoAsistencia.pendiente)
-                            {
-                                <button class="btn btn-warning btn-sm me-1">PENDIENTE
-                                    <i class="bi bi-question-diamond ms-2"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-success btn-sm me-1">PRESENTE
-                                    <i class="bi bi-check2-circle ms-2"></i>
-                                </button>
-                            }
-                        </td>
-                        <td>
-                            
-                            @if(!permisoModificar)
-                            {
-                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(reserva.Id)">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                            }
-                            @if(!permisoBaja)
-                            {
-                                <button type="button" class="btn btn-danger btn-sm" disabled>
-                                    <i class="bi bi-trash3"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(reserva)">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
-                            }
-
-                        </td>
+                        <th>ID</th>
+                        <th>Persona ID</th>
+                        <th>Eventos ID</th>
+                        <th>Fecha de Reservas</th>
+                        <th>Estado de Asistencia</th>
+                        <th>Acción</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var reserva in reservas)
+                    {
+                        <tr>
+                            <td>@reserva.Id</td>
+                            <td>@reserva.PersonaId</td>
+                            <td>@reserva.EventoDeportivoId</td>
+                            <td>@reserva.FechaAltaReserva</td>
+                            <td>
+                                @if(reserva.EstadoAsistencia==EnumEstadoAsistencia.ausente)
+                                {
+                                    <button class="btn btn-danger btn-sm me-1">AUSENTE
+                                        <i class="bi bi-x-circle ms-2"></i>
+                                    </button>
+
+                                }
+                                else if(reserva.EstadoAsistencia==EnumEstadoAsistencia.pendiente)
+                                {
+                                    <button class="btn btn-warning btn-sm me-1">PENDIENTE
+                                        <i class="bi bi-question-diamond ms-2"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-success btn-sm me-1">PRESENTE
+                                        <i class="bi bi-check2-circle ms-2"></i>
+                                    </button>
+                                }
+                            </td>
+                            <td>
+                                
+                                @if(!permisoModificar)
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(reserva.Id)">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                }
+                                @if(!permisoBaja)
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm" disabled>
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(reserva)">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h2 class="text-white">No hay reservas creadas</h2>
+        }
     </div>
 </div>
 
