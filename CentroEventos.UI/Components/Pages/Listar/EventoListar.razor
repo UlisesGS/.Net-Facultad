@@ -40,87 +40,89 @@
             }
         </div>
         <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="thead-custom">
-                    <tr>
-                        <th>ID</th>
-                        <th>Responsable</th>
-                        <th>Cupo maximo</th>
-                        <th>Fecha inicio</th>
-                        <th>Duracion horas</th>
-                        <th>Nombre</th>
-                        <th>Lista Asistencia</th>
-                        <th>Descripcion</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
+            
                     @if(eventos.Any())
                     {
-                        @foreach (var evento in eventos)
-                        {
-                            <tr>
-                                <td>@evento.Id</td>
-                                <td>@evento.ResponsableId</td>
-                                <td>@evento.CupoMaximo</td>
-                                <td>@evento.FechaHoraInicio</td>
-                                <td>@evento.DuracionHoras</td>
-                                <td>@evento.Nombre</td>
-                                <td>
-                                    @if(MostrarListaBool(evento.FechaHoraInicio,evento.DuracionHoras))
-                                    {
-                                        <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirListaAsistencia(evento.Id)">
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn btn-warning btn-sm me-1" disabled>
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                    }
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirDescripcion(evento.Descripcion)">
-                                        Ver Descripcion
-                                        <i class="bi bi-question-circle ms-2"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    @if(!permisoModificar)
-                                    {
-                                        <button type="button" class="btn btn-primary btn-sm me-1" disabled>
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    }
-                                    @if(!permisoBaja)
-                                    {
-                                        <button type="button" class="btn btn-danger btn-sm" disabled>
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(evento)">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    }
-                            </td>
-                            </tr>
-                        }
+                        <table class="table table-striped">
+                            <thead class="thead-custom">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Responsable</th>
+                                    <th>Cupo maximo</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Duracion horas</th>
+                                    <th>Nombre</th>
+                                    <th>Lista Asistencia</th>
+                                    <th>Descripcion</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var evento in eventos)
+                                {
+                                    <tr>
+                                        <td>@evento.Id</td>
+                                        <td>@evento.ResponsableId</td>
+                                        <td>@evento.CupoMaximo</td>
+                                        <td>@evento.FechaHoraInicio</td>
+                                        <td>@evento.DuracionHoras</td>
+                                        <td>@evento.Nombre</td>
+                                        <td>
+                                            @if(MostrarListaBool(evento.FechaHoraInicio,evento.DuracionHoras))
+                                            {
+                                                <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirListaAsistencia(evento.Id)">
+                                                    <i class="bi bi-list"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-warning btn-sm me-1" disabled>
+                                                    <i class="bi bi-list"></i>
+                                                </button>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirDescripcion(evento.Descripcion)">
+                                                Ver Descripcion
+                                                <i class="bi bi-question-circle ms-2"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            @if(!permisoModificar)
+                                            {
+                                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            }
+                                            @if(!permisoBaja)
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm" disabled>
+                                                    <i class="bi bi-trash3"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(evento)">
+                                                    <i class="bi bi-trash3"></i>
+                                                </button>
+                                            }
+                                    </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     }
                     else
                     {
-                        <h2>No eventos creados</h2>
+                        <h2 class="text-white">No hay eventos creados</h2>
                     }
-                </tbody>
-            </table>
+                
         </div>
     </div>
 }
