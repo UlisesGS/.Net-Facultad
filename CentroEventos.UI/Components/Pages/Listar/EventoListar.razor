@@ -197,6 +197,7 @@
                 Navigation.NavigateTo("/", true);
                 return;
             }
+            idLog = user.Id;
             foreach(EnumPermiso enumPermiso in user.Permisos)
             {
                 if(enumPermiso == EnumPermiso.PersonaAlta)
