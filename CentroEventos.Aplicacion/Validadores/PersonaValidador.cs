@@ -58,6 +58,18 @@ namespace CentroEventos.Aplicacion.Validadores
                 return false;
             }
 
+            if (persona.Telefono == null)
+            {
+                mensajeError = "ERROR - DNI obligatorio.";
+                return false;
+            }
+
+            if (persona.Telefono.Value.ToString().Length > 10)  
+            {
+                mensajeError = "ERROR - La longitud del telefono debe ser de mayor a 10.";
+                return false;
+            }
+
             return true;
         }
     }

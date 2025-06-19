@@ -6,7 +6,7 @@ namespace CentroEventos.Aplicacion.Entidades
 
         public Persona() {}
 
-        public Persona(int id, int? dni, string nombre, string apellido, string email, long telefono)
+        public Persona(int id, int? dni, string nombre, string apellido, string email, long? telefono)
         {
             Id = id;
             DNI = dni;
@@ -21,7 +21,7 @@ namespace CentroEventos.Aplicacion.Entidades
         public string Nombre { get; set;} = null!;
         public string Apellido { get; set;} = null!;
         public string Email { get; set;} = null!;
-        public long Telefono { get; set;}
+        public long? Telefono { get; set;}
 
 
         public override string ToString()

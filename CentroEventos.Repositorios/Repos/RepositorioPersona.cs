@@ -25,17 +25,17 @@ public class RepositorioPersona(DataContext db) : IPersonaRepositorio
 
     public bool ExistsByDNI(int dni)
     {
-        return db.Personas.FirstOrDefault(p => p.DNI == dni) != null;
+        return db.Personas.Any(p => p.DNI == dni);
     }
 
     public bool ExistsByEmail(string email)
     {
-        return db.Personas.FirstOrDefault(p => p.Email == email) != null;
+        return db.Personas.Any(p => p.Email == email);
     }
 
     public bool ExistsById(int id)
     {
-        return db.Personas.FirstOrDefault(p => p.Id == id) != null;
+        return db.Personas.Any(p => p.Id == id);
     }
 
     public List<Persona> Listar()

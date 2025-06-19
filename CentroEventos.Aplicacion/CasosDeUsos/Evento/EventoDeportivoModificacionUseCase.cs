@@ -6,8 +6,9 @@ using CentroEventos.Aplicacion.validadores;
 
 namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
 {
-    public class EventoDeportivoModificacionUseCase(IEventoDeportivoRepositorio repoEvento, IServicioAutorizacion servicioAutorizacion){
+    public class EventoDeportivoModificacionUseCase(IEventoDeportivoRepositorio repoEvento, IPersonaRepositorio repoPersona, IServicioAutorizacion servicioAutorizacion){
             private readonly IEventoDeportivoRepositorio _repositorioEvento = repoEvento;
+            private readonly IPersonaRepositorio _repositorioPersona = repoPersona;
             private readonly IServicioAutorizacion _servicioAutorizacion = servicioAutorizacion;
 
             public void Ejecutar(EventoDeportivo evento, int idUsuario){
@@ -26,6 +27,11 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Evento
                 if(evento.FechaHoraInicio < DateTime.Now)
                 {
                     throw new OperacionInvalidaException("ERROR - La fecha tiene que ser posterior al actual");
+                }
+
+                if(_repositorioPersona.ExistsById(evento.ResponsableId))
+                {
+                    throw new OperacionInvalidaException("ERROR - El Responsable no es valido.");
                 }
 
                 _repositorioEvento.Modificar(evento);
