@@ -105,6 +105,13 @@
                 </div>
                 <div class="modal-body text-white">
                     <p>¿Estás seguro que querés eliminar a <strong>@personaSeleccionada.Nombre @personaSeleccionada.Apellido</strong>?</p>
+
+                    @if (!string.IsNullOrEmpty(errorEliminar))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @errorEliminar
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
@@ -126,11 +133,9 @@
 
 .thead-custom th {
     background-color: #478689 ;
-    color: white ;
 }
-using CentroEventos.Aplicacion.Enums;
-#line default
-formulario-wrapper {
+
+.formulario-wrapper {
     max-width: 600px;
     width: 100%;
 }
@@ -175,6 +180,7 @@ formulario-wrapper {
     private bool permisoAlta = false;
     private bool permisoBaja = false;
     private bool permisoModificar = false;
+    private string? errorEliminar = null;
 
     protected override async Task OnAfterRenderAsync(bool Render)
     {
@@ -233,14 +239,9 @@ formulario-wrapper {
         mostrarModalEliminar = true;
     }
 
-    private void CancelarEliminar()
-    {
-        mostrarModalEliminar = false;
-        personaSeleccionada = null;
-    }
-
     private void ConfirmarEliminar()
     {
+        errorEliminar = null; 
         try
         {
             var user = Login.GetUser();
@@ -248,17 +249,24 @@ formulario-wrapper {
             {
                 Baja.Ejecutar(personaSeleccionada.Id, user.Id);
                 personas.RemoveAll(p => p.Id == personaSeleccionada.Id);
+
+                // Todo bien, cierro modal y limpio selección
+                mostrarModalEliminar = false;
+                personaSeleccionada = null;
             }
         }
         catch (Exception ex)
         {
+            errorEliminar = $"Error al eliminar: {ex.Message}";
             Console.WriteLine($"ERROR: {ex.Message}");
         }
-        finally
-        {
-            mostrarModalEliminar = false;
-            personaSeleccionada = null;
-        }
+    }
+
+    private void CancelarEliminar()
+    {
+        mostrarModalEliminar = false;
+        personaSeleccionada = null;
+        errorEliminar = null;
     }
 
     private Task CerrarModalCrear()

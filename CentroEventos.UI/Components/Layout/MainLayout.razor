@@ -1,4 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@using CentroEventos.Aplicacion
+@inject UsuarioBuscarIdUseCase UsuarioBuscarId
+@inject ServicioLogin Login;
+@inject NavigationManager Navigation
+ Navigation
 
 <style>
 .sidebar {
@@ -60,8 +65,5 @@
     </main>
 </div>
 
-<div id="blazor-error-ui" class="position-fixed top-0 end-0 bg-danger text-white p-2 m-2 rounded shadow">
-    para algo lo vamos a usar
-    <a href="" class="text-white text-decoration-underline">Reload</a>
-    <a class="ms-3 text-white fw-bold" style="cursor: pointer;">🗙</a>
-</div>
+
+ 

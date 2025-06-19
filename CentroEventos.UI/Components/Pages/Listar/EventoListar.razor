@@ -133,6 +133,12 @@
                 </div>
                 <div class="modal-body text-white">
                     <p>¿Estás seguro que querés eliminar a <strong>@eventoSeleccionado.Nombre</strong>?</p>
+                    @if (!string.IsNullOrEmpty(errorEliminar))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @errorEliminar
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
@@ -146,6 +152,13 @@
 
 
 <style>
+.descripcion-celda {
+    max-width: 200px; /* Ajustalo como quieras */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .bg-personas-header {
     background-color: #1c2a29;
 }
@@ -156,14 +169,38 @@
 
 .thead-custom th {
     background-color: #478689 ;
-    color: white ;
+}
+.formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
 }
 
-.descripcion-celda {
-    max-width: 200px; /* Ajustalo como quieras */
-    white-space: nowrap;
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
     overflow: hidden;
-    text-overflow: ellipsis;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29 ;
+    border-radius: 12px;
+}
+
+/* Header del formulario */
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+/* Footer de botones */
+.bg-footer {
+    background-color: #478689;
+    color: white;
 }
 </style>
 
@@ -182,6 +219,7 @@
     private bool permisoModificar = false;
     private bool mostrarModalDescripcion = false;
     private string descripcionSeleccionada = string.Empty;
+        private string? errorEliminar = null;
     protected override async Task OnAfterRenderAsync(bool Render)
     {
 
@@ -245,10 +283,12 @@
     {
         mostrarModalEliminar = false;
         eventoSeleccionado = null;
+        errorEliminar = null;
     }
 
     private void ConfirmarEliminar()
     {
+        errorEliminar = null; 
         try
         {
             var user = Login.GetUser();
@@ -256,16 +296,15 @@
             {
                 Baja.Ejecutar(eventoSeleccionado.Id, user.Id);
                 eventos.RemoveAll(p => p.Id == eventoSeleccionado.Id);
+
+                mostrarModalEliminar = false;
+                eventoSeleccionado=null;
             }
         }
         catch (Exception ex)
         {
+            errorEliminar = $"Error al eliminar: {ex.Message}";
             Console.WriteLine($"ERROR: {ex.Message}");
-        }
-        finally
-        {
-            mostrarModalEliminar = false;
-            eventoSeleccionado = null;
         }
     }
 
