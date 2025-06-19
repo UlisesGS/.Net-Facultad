@@ -37,7 +37,7 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Reservas
                     throw new CupoExcedidoException("ERROR - No hay Cupo disponible.");
                 }
             }
-
+            
             _repositorioReserva.Modificar(reserva);
         }
     }

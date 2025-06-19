@@ -4,6 +4,7 @@
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.UI.Components.Pages.Crear
 @rendermode InteractiveServer
+@using CentroEventos.Aplicacion.Enums
 @inject NavigationManager Navigation
 @inject PersonaListarUseCase Listar
 @inject PersonaBuscarPorIdUseCase BuscarId
@@ -13,10 +14,21 @@
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Personas</h4>
-        <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
-            <i class="bi bi-plus-circle me-1"></i> Crear Persona
-        </button>
+        @if(!permisoAlta)
+        {
+            <button type="button" class="btn btn-success mt-2" disabled>
+                <i class="bi bi-plus-circle me-1"></i> Crear Persona
+            </button>
+        } 
+        else
+        {
+            <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
+                <i class="bi bi-plus-circle me-1"></i> Crear Persona
+            </button>
+        }
     </div>
+
+    
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -42,12 +54,31 @@
                         <td>@persona.Email</td>
                         <td>@persona.Telefono</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(persona.Id)">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(persona)">
-                                <i class="bi bi-archive"></i>
-                            </button>
+                            @if(!permisoModificar)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(persona.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            @if(!permisoBaja)
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" disabled>
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(persona)">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            
                         </td>
                     </tr>
                 }
@@ -100,8 +131,9 @@
     background-color: #478689 ;
     color: white ;
 }
-
-   .formulario-wrapper {
+using CentroEventos.Aplicacion.Enums;
+#line default
+formulario-wrapper {
     max-width: 600px;
     width: 100%;
 }
@@ -138,11 +170,14 @@
 @code {
     private List<Persona> personas = new();
     private Persona? personaSeleccionada;
+    private int idLog = 0;
     private bool mostrarModalCrear = false;
     private bool mostrarModalModificar = false;
     private bool mostrarModalEliminar = false;
-
     private bool primerRender = true;
+    private bool permisoAlta = false;
+    private bool permisoBaja = false;
+    private bool permisoModificar = false;
 
     protected override async Task OnAfterRenderAsync(bool Render)
     {
@@ -157,6 +192,22 @@
             {
                 Navigation.NavigateTo("/", true);
                 return;
+            }
+            idLog = user.Id;
+            foreach(EnumPermiso enumPermiso in user.Permisos)
+            {
+                if(enumPermiso == EnumPermiso.PersonaAlta)
+                {
+                    permisoAlta = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaBaja)
+                {
+                    permisoBaja = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaModificacion)
+                {
+                    permisoModificar = true;
+                }
             }
 
             personas = Listar.Ejecutar();

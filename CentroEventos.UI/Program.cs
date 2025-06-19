@@ -61,6 +61,7 @@ builder.Services.AddScoped<EventoDeportivoModificacionUseCase>();
 builder.Services.AddScoped<ReservaBajaUseCase>();
 builder.Services.AddScoped<ReservaAltaUseCase>();
 builder.Services.AddScoped<ReservaListarUseCase>();
+builder.Services.AddScoped<ReservaBuscarPorIdUseCase>();
 builder.Services.AddScoped<ReservaModificacionUseCase>();
 
 var app = builder.Build();
