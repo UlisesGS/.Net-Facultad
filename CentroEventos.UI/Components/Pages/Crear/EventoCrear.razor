@@ -17,7 +17,7 @@
                 <DataAnnotationsValidator />
 
                 <div class="modal-header form-header">
-                    <h5 class="modal-title">@(eventoAux!.Id == 0 ? "Crear Persona" : "Modificar Persona")</h5>
+                    <h5 class="modal-title">@(eventoAux!.Id == 0 ? "Crear Evento" : "Modificar Evento")</h5>
                     <button type="button" class="btn-close" @onclick="Cerrar"></button>
                 </div>
 
@@ -39,7 +39,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">FechaHoraInicio</label>
-                        <InputNumber @bind-Value="eventoAux.FechaHoraInicio" class="form-control borde-personalizado" />
+                        <InputDate @bind-Value="eventoAux.FechaHoraInicio" class="form-control borde-personalizado" />
                         <ValidationMessage For="@(() => eventoAux.FechaHoraInicio)" />
                     </div>
                     <div class="mb-3">
@@ -121,7 +121,7 @@
                 return;
             }
 
-            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.EventoAlta))
             {
                 Navigation.NavigateTo("/no-autorizado");
                 return;
