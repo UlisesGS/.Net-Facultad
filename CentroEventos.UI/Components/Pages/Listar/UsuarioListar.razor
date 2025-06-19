@@ -173,13 +173,11 @@
     private Usuario? usuarioSeleccionado;
     private int idLog = 0;
     private bool primerRender = true;
-
-    private bool permisoAlta=false;
     private bool permisoModificar=false;
     private bool permisoBaja=false;
     private bool permisoVer=false;
-
     private bool mostrarModalPermisos = false;
+    
     private List<EnumPermiso> permisosDisponibles = Enum.GetValues<EnumPermiso>().ToList();
     private List<EnumPermiso> permisosSeleccionados = new();
 
@@ -201,10 +199,7 @@
             idLog=user.Id;
             foreach (EnumPermiso enumPermiso in user.Permisos)
             {
-                if(enumPermiso==EnumPermiso.UsuarioAlta)
-                {
-                    permisoAlta=true;
-                }else if (enumPermiso==EnumPermiso.UsuarioBaja)
+                if (enumPermiso==EnumPermiso.UsuarioBaja)
                 {
                     permisoBaja=true;
                 }else if (enumPermiso==EnumPermiso.UsuarioModificacion)

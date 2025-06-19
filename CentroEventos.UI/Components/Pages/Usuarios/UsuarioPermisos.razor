@@ -6,7 +6,7 @@
 @namespace CentroEventos.UI.Components.Pages.Usuarios
 
 <div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg ms-auto me-auto" style="max-width: 650px;"> <!-- Centramos horizontalmente -->
         <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
             <div class="modal-header form-header">
                 <h5 class="modal-title">Permisos de @Usuario?.Nombre @Usuario?.Apellido</h5>
@@ -21,9 +21,9 @@
                             <div class="col-6 col-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                            id="@permiso.ToString()"
-                                            checked="@PermisosSeleccionados.Contains(permiso)"
-                                            @onchange="@(() => TogglePermiso(permiso))" />
+                                           id="@permiso.ToString()"
+                                           checked="@PermisosSeleccionados.Contains(permiso)"
+                                           @onchange="@(() => TogglePermiso(permiso))" />
                                     <label class="form-check-label" for="@permiso.ToString()">
                                         @permiso.ToString()
                                     </label>
@@ -41,6 +41,39 @@
     </div>
 </div>
 
+
+<style>
+.formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29;
+    border-radius: 12px;
+}
+
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
+</style>
 
 @code {
     [Parameter] public bool Mostrar { get; set; }

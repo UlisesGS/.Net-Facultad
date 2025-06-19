@@ -45,7 +45,7 @@ public class RepositorioPersona(DataContext db) : IPersonaRepositorio
 
     public void Modificar(Persona persona)
     {
-        var original = db.Personas.Find(persona.Id); // ✅ entidad nueva, misma que ya trackea EF
+        var original = db.Personas.Find(persona.Id);
 
         if (original != null)
         {
