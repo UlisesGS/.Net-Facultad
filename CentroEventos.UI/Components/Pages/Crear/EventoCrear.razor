@@ -28,12 +28,12 @@
                     }
 
                     <div class="mb-3">
-                        <label class="form-label">ResponsableId</label>
+                        <label class="form-label">Responsable</label>
                         <InputNumber @bind-Value="eventoAux.ResponsableId" class="form-control borde-personalizado" />
                         <ValidationMessage For="@(() => eventoAux.ResponsableId)" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">CupoMaximo</label>
+                        <label class="form-label">Cupo Máximo</label>
                         <InputNumber @bind-Value="eventoAux.CupoMaximo" class="form-control borde-personalizado" />
                         <ValidationMessage For="@(() => eventoAux.CupoMaximo)" />
                     </div>
@@ -45,7 +45,7 @@
                         <ValidationMessage For="@(() => eventoAux.FechaHoraInicio)" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">DuracionHoras</label>
+                        <label class="form-label">Duración en horas</label>
                         <InputNumber @bind-Value="eventoAux.DuracionHoras" class="form-control borde-personalizado" />
                         <ValidationMessage For="@(() => eventoAux.DuracionHoras)" />
                     </div>
@@ -55,7 +55,7 @@
                         <ValidationMessage For="@(() => eventoAux.Nombre)" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descripcion</label>
+                        <label class="form-label">Descripción</label>
                         <InputText @bind-Value="eventoAux.Descripcion" class="form-control borde-personalizado" />
                         <ValidationMessage For="@(() => eventoAux.Descripcion)" />
                     </div>
