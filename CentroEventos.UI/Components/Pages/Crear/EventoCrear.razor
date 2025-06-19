@@ -132,13 +132,6 @@
                 Navigation.NavigateTo("/");
                 return;
             }
-
-            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.EventoAlta))
-            {
-                Navigation.NavigateTo("/no-autorizado");
-                return;
-            }
-
             if (DateTime.TryParse(fechaHoraInicioString, out var fechaHora))
             {
                 eventoAux.FechaHoraInicio = fechaHora;
