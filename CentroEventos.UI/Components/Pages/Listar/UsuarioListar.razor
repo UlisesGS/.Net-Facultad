@@ -37,12 +37,24 @@
                         <td>@usuario.Nombre</td>
                         <td>@usuario.Apellido</td>
                         <td>@usuario.Email</td>
+
                         <td>
-                            <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
-                                Ver Permisos
-                                <i class="bi  bi-exclamation-circle ms-2"></i>
-                            </button>
+                            @if(!permisoOtorgar)
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" disabled>
+                                    Ver Permisos
+                                    <i class="bi  bi-exclamation-circle ms-2"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
+                                    Ver Permisos
+                                    <i class="bi  bi-exclamation-circle ms-2"></i>
+                                </button>
+                            }
                         </td>
+
                         <td>
                             @if (idLog == idAdmin)
                             {
@@ -72,14 +84,14 @@
 
                             @if(!permisoBaja || usuario.Id==idLog)
                             {
-                                <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                    <i class="bi bi-archive"></i>
+                                <button type="button" class="btn btn-danger btn-sm" disabled>
+                                    <i class="bi bi-trash3"></i>
                                 </button>
                             }
                             else
                             {
                                 <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(usuario)">
-                                    <i class="bi bi-archive"></i>
+                                    <i class="bi bi-trash3"></i>
                                 </button>
                             }
                             
@@ -234,8 +246,6 @@
             }else{
                 usuarios.Add(user);
             }
-            Console.WriteLine("ACA "+ idAdmin);
-            Console.WriteLine("ACA "+ idLog);
             StateHasChanged();
         }
     }

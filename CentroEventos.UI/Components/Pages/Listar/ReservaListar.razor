@@ -47,7 +47,27 @@
                         <td>@reserva.PersonaId</td>
                         <td>@reserva.EventoDeportivoId</td>
                         <td>@reserva.FechaAltaReserva</td>
-                        <td>@reserva.EstadoAsistencia</td>
+                        <td>
+                            @if(reserva.EstadoAsistencia==EnumEstadoAsistencia.ausente)
+                            {
+                                <button class="btn btn-danger btn-sm me-1">AUSENTE
+                                    <i class="bi bi-x-circle ms-2"></i>
+                                </button>
+
+                            }
+                            else if(reserva.EstadoAsistencia==EnumEstadoAsistencia.pendiente)
+                            {
+                                <button class="btn btn-warning btn-sm me-1">PENDIENTE
+                                    <i class="bi bi-question-diamond ms-2"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-success btn-sm me-1">PRESENTE
+                                    <i class="bi bi-check2-circle ms-2"></i>
+                                </button>
+                            }
+                        </td>
                         <td>
                             
                             @if(!permisoModificar)
@@ -65,13 +85,13 @@
                             @if(!permisoBaja)
                             {
                                 <button type="button" class="btn btn-danger btn-sm" disabled>
-                                    <i class="bi bi-archive"></i>
+                                    <i class="bi bi-trash3"></i>
                                 </button>
                             }
                             else
                             {
                                 <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(reserva)">
-                                    <i class="bi bi-archive"></i>
+                                    <i class="bi bi-trash3"></i>
                                 </button>
                             }
 
