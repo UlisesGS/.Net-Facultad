@@ -11,7 +11,6 @@
         PersonaAlta,
         PersonaModificacion,
         PersonaBaja,
-        UsuarioAlta,
         UsuarioModificacion,
         UsuarioBaja,
         UsuarioGestion,

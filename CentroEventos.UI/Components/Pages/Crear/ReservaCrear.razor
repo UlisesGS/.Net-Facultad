@@ -122,12 +122,6 @@
                 return;
             }
 
-            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.ReservaAlta))
-            {
-                Navigation.NavigateTo("/no-autorizado");
-                return;
-            }
-
             if (reservaAux!.Id == 0)
             {
                 Alta.Ejecutar(reservaAux, user.Id);
