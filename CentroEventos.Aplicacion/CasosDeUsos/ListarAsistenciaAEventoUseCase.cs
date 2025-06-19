@@ -4,7 +4,7 @@ using CentroEventos.Aplicacion.Enums;
 using CentroEventos.Aplicacion.Excepciones;
 using CentroEventos.Aplicacion.Interfaces;
 
-namespace CentroEventos.Aplicacion.CasosDeUsos
+namespace CentroEventos.Aplicacion
 {
 
     public class ListarAsistenciaAEventoUseCase(IReservaRepositorio repoReserva, IEventoDeportivoRepositorio repoEvento, IPersonaRepositorio repoPersona){

@@ -9,6 +9,7 @@
 @inject ServicioLogin Login
 @inject EventoDeportivoBuscarPorIdUseCase BuscarId
 @inject EventoDeportivoListarUseCase Listar
+@inject ListarAsistenciaAEventoUseCase ListarAsistenciaAEvento
 @inject EventoDeportivoBajaUseCase Baja
 @inject NavigationManager Navigation
 
@@ -38,6 +39,7 @@
                     <th>Fecha inicio</th>
                     <th>Duracion horas</th>
                     <th>Nombre</th>
+                    <th>Lista Asistencia</th>
                     <th>Descripcion</th>
                     <th>Acción</th>
                 </tr>
@@ -52,6 +54,20 @@
                         <td>@evento.FechaHoraInicio</td>
                         <td>@evento.DuracionHoras</td>
                         <td>@evento.Nombre</td>
+                        <td>
+                            @if(MostrarListaBool(evento.FechaHoraInicio,evento.DuracionHoras))
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirListaAsistencia(evento.Id)">
+                                    <i class="bi bi-list"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" disabled>
+                                    <i class="bi bi-list"></i>
+                                </button>
+                            }
+                        </td>
                         <td>
                             <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirDescripcion(evento.Descripcion)">
                                 Ver Descripcion
@@ -91,6 +107,28 @@
         </table>
     </div>
 </div>
+
+
+@if (mostrarModalLista)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
+                    <button type="button" class="btn-close" @onclick="CerrarModalListaAsistencia"></button>
+                </div>
+                <div class="modal-body text-white">
+                    <textarea class="form-control" readonly rows="10" style="resize: none; overflow-y: scroll; white-space: pre-wrap;">
+                        @PersonasEnTexto
+                    </textarea>
+                </div>
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-danger" @onclick="CerrarModalListaAsistencia">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @if (mostrarModalDescripcion)
 {
@@ -206,8 +244,10 @@
 
 @code {
 
+    private List<Persona> personas = new();
     private List<EventoDeportivo> eventos = new();
     private EventoDeportivo? eventoSeleccionado;
+    private int idAux;
 
     private int idLog = 0;
     private bool mostrarModalCrear = false;
@@ -218,8 +258,9 @@
     private bool permisoBaja = false;
     private bool permisoModificar = false;
     private bool mostrarModalDescripcion = false;
+    private bool mostrarModalLista = false;
     private string descripcionSeleccionada = string.Empty;
-        private string? errorEliminar = null;
+    private string? errorEliminar = null;
     protected override async Task OnAfterRenderAsync(bool Render)
     {
 
@@ -255,6 +296,15 @@
             StateHasChanged();
         }
     
+    }
+
+    private bool MostrarListaBool(DateTime FechaHoraInicio, double DuracionHoras)
+    {
+        if(FechaHoraInicio.AddHours(DuracionHoras)<DateTime.Now)
+        {
+            return true;
+        }
+        return false;
     }
     
     private void AbrirModalModificar(int id)
@@ -332,5 +382,19 @@
     {
         mostrarModalDescripcion = false;
         descripcionSeleccionada = string.Empty;
+    }
+
+    private string PersonasEnTexto => personas == null ? "" : string.Join("\n", personas.Select(p => $"{p.Nombre} {p.Apellido}"));
+    private void AbrirListaAsistencia(int id)
+    {
+        personas = ListarAsistenciaAEvento.Ejecutar(id);
+        idAux = id;
+        mostrarModalLista = true;
+    }
+
+    private void CerrarModalListaAsistencia()
+    {
+        mostrarModalLista = false;
+        idAux = 0;
     }
 }

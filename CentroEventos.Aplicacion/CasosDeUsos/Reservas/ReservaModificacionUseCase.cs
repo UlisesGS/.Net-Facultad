@@ -19,6 +19,8 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Reservas
             }
 
             var personaAux = _repositorioPersona.BuscarPorId(reserva.PersonaId) ?? throw new EntidadNotFoundException("ERROR - La persona no existe.");
+
+            var eventoAux = _repositorioEventoDeportivo.BuscarPorId(reserva.EventoDeportivoId) ?? throw new EntidadNotFoundException("ERROR - El evento no existe.");
             
             if (_repositorioEventoDeportivo.ExistsByIdResponsableEnEvento(reserva.PersonaId, reserva.EventoDeportivoId))
             {
