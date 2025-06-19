@@ -1,0 +1,151 @@
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion.CasosDeUsos.Evento
+@using CentroEventos.Aplicacion.Enums
+@inject EventoDeportivoAltaUseCase Alta
+@inject EventoDeportivoModificacionUseCase Modificar
+@inject ServicioLogin ServicioLogin
+@inject ServicioAutorizacion ServicioAutorizacion
+@inject NavigationManager Navigation
+
+@namespace CentroEventos.UI.Components.Pages.Crear
+
+<div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+        <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+            <EditForm Model="@eventoAux" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">@(eventoAux!.Id == 0 ? "Crear Persona" : "Modificar Persona")</h5>
+                    <button type="button" class="btn-close" @onclick="Cerrar"></button>
+                </div>
+
+                <div class="modal-body text-white">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label">ResponsableId</label>
+                        <InputNumber @bind-Value="eventoAux.ResponsableId" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.ResponsableId)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CupoMaximo</label>
+                        <InputNumber @bind-Value="eventoAux.CupoMaximo" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.CupoMaximo)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">FechaHoraInicio</label>
+                        <InputNumber @bind-Value="eventoAux.FechaHoraInicio" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.FechaHoraInicio)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">DuracionHoras</label>
+                        <InputNumber @bind-Value="eventoAux.DuracionHoras" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.DuracionHoras)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <InputText @bind-Value="eventoAux.Nombre" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.Nombre)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripcion</label>
+                        <InputText @bind-Value="eventoAux.Descripcion" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.Descripcion)" />
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-secondary" type="button" @onclick="Cerrar">Cancelar</button>
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                </div>               
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<style>
+.formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
+
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29;
+    border-radius: 12px;
+}
+
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
+</style>
+
+@code {
+    [Parameter] public EventoDeportivo eventoAux { get; set; } = new();
+    [Parameter] public bool Mostrar { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private string? errorMessage;
+
+    private async Task HandleSubmit()
+    {
+        errorMessage = null;
+
+        try
+        {
+            var user = ServicioLogin.GetUser();
+            if (user == null)
+            {
+                Navigation.NavigateTo("/");
+                return;
+            }
+
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
+            {
+                Navigation.NavigateTo("/no-autorizado");
+                return;
+            }
+
+            if (eventoAux!.Id == 0)
+            {
+                Alta.Ejecutar(eventoAux, user.Id);
+            }
+            else
+            {
+                Modificar.Ejecutar(eventoAux, user.Id);
+            }
+
+            await Cerrar();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+
+    private async Task Cerrar()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

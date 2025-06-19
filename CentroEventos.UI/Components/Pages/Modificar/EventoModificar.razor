@@ -1,0 +1,12 @@
+@page "/persona-modificar/{id:int}"
+@rendermode InteractiveServer
+@using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.Aplicacion
+@using CentroEventos.Aplicacion.CasosDeUsos.Evento
+@using CentroEventos.Aplicacion.Enums
+
+@inject EventoDeportivoBuscarPorIdUseCase EventoBuscarId
+@inject EventoDeportivoModificacionUseCase Modificar
+@inject ServicioAutorizacion ServicioAutorizacion
+@inject ServicioLogin Login
+@inject NavigationManager Navigation
