@@ -2,20 +2,21 @@
 @using CentroEventos.Aplicacion
 @using CentroEventos.Aplicacion.CasosDeUsos.Personas
 @using CentroEventos.Aplicacion.Entidades
+@using CentroEventos.UI.Components.Pages.Crear
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject PersonaListarUseCase Listar
+@inject PersonaBuscarPorIdUseCase BuscarId
+@inject PersonaBajaUseCase Baja
 @inject ServicioLogin Login
-
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Personas</h4>
-        <button type="button" class="btn btn-success mt-2" @onclick="crear">
+        <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
             <i class="bi bi-plus-circle me-1"></i> Crear Persona
         </button>
     </div>
-
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -41,10 +42,10 @@
                         <td>@persona.Email</td>
                         <td>@persona.Telefono</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(persona.Id)">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(persona.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(persona.Id)">
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(persona)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -55,6 +56,36 @@
     </div>
 </div>
 
+@if (mostrarModalCrear)
+{
+    <PersonaCrear Mostrar="@mostrarModalCrear" OnClose="CerrarModalCrear" />
+}
+
+@if (mostrarModalModificar && personaSeleccionada != null)
+{
+    <PersonaCrear Mostrar="@mostrarModalModificar" personaAux="@personaSeleccionada" OnClose="CerrarModalModificar" />
+}
+
+@if (mostrarModalEliminar && personaSeleccionada != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
+                </div>
+                <div class="modal-body text-white">
+                    <p>¿Estás seguro que querés eliminar a <strong>@personaSeleccionada.Nombre</strong>?</p>
+                </div>
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="ConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <style>
 .bg-personas-header {
@@ -70,12 +101,46 @@
     color: white ;
 }
 
+   .formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
 
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29 ;
+    border-radius: 12px;
+}
+
+/* Header del formulario */
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+/* Footer de botones */
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
 </style>
 
 @code {
-
     private List<Persona> personas = new();
+    private Persona? personaSeleccionada;
+    private bool mostrarModalCrear = false;
+    private bool mostrarModalModificar = false;
+    private bool mostrarModalEliminar = false;
 
     private bool primerRender = true;
 
@@ -99,19 +164,66 @@
         }
     }
 
-    private void crear()
+    private void AbrirModalModificar(int id)
     {
-        Navigation.NavigateTo("/persona-crear");
+        var p = BuscarId.Ejecutar(id);
+        personaSeleccionada = new Persona
+        {
+            Id = p.Id,
+            DNI = p.DNI,
+            Nombre = p.Nombre,
+            Apellido = p.Apellido,
+            Email = p.Email,
+            Telefono = p.Telefono
+        };
+        mostrarModalModificar = true;
     }
 
-    private void Modificar(int id)
+    private void AbrirModalEliminar(Persona persona)
     {
-        Navigation.NavigateTo($"/persona-modificar/{id}");
+        personaSeleccionada = persona;
+        mostrarModalEliminar = true;
     }
 
-    private void Eliminar(int id)
+    private void CancelarEliminar()
     {
-        
+        mostrarModalEliminar = false;
+        personaSeleccionada = null;
     }
 
+    private void ConfirmarEliminar()
+    {
+        try
+        {
+            var user = Login.GetUser();
+            if (personaSeleccionada != null)
+            {
+                Baja.Ejecutar(personaSeleccionada.Id, user.Id);
+                personas.RemoveAll(p => p.Id == personaSeleccionada.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        finally
+        {
+            mostrarModalEliminar = false;
+            personaSeleccionada = null;
+        }
+    }
+
+    private Task CerrarModalCrear()
+    {
+        mostrarModalCrear = false;
+        personas = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
+
+    private Task CerrarModalModificar()
+    {
+        mostrarModalModificar = false;
+        personas = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
 }

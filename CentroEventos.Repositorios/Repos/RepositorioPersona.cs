@@ -45,8 +45,18 @@ public class RepositorioPersona(DataContext db) : IPersonaRepositorio
 
     public void Modificar(Persona persona)
     {
-        db.Personas.Update(persona);
-        db.SaveChanges();
+        var original = db.Personas.Find(persona.Id); // ✅ entidad nueva, misma que ya trackea EF
+
+        if (original != null)
+        {
+            original.Nombre = persona.Nombre;
+            original.Apellido = persona.Apellido;
+            original.Email = persona.Email;
+            original.DNI = persona.DNI;
+            original.Telefono = persona.Telefono;
+
+            db.SaveChanges();
+        }
     }
 }
  

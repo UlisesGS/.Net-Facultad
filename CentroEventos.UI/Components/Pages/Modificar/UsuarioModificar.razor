@@ -1,77 +1,60 @@
-@page "/usuario-modificar/{id:int}"
-@rendermode InteractiveServer
-@using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion
-@using System.ComponentModel.DataAnnotations;
-@using CentroEventos.Aplicacion.Enums 
+@using CentroEventos.Aplicacion.Enums
+
 @inject UsuarioModificacionUseCase Modificar
 @inject ServicioAutorizacion ServicioAutorizacion
-@inject UsuarioBuscarIdUseCase usuarioBuscarId
 @inject ServicioLogin Login
 @inject NavigationManager Navigation
 
+@namespace CentroEventos.UI.Components.Pages.Modificar
 
-<div class="d-flex justify-content-center align-items-start w-100" style="min-height: calc(100vh - 4rem);">
-    <div class="formulario-wrapper">
-        <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="modificarUsuario" class="p-0 formulario-con-borde text-white">
-            <DataAnnotationsValidator />
-            
-            @* Mensaje de éxito general *@
-            @if (success)
-            {
-                <div class="alert alert-success">
-                    Usuario creado correctamente.
-                </div>
-            }
+<div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+        <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+            <EditForm Model="@usAux" OnValidSubmit="HandleSubmit" FormName="modificarUsuario">
+                <DataAnnotationsValidator />
 
-            @* Mensaje de error genérico *@
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger">
-                    @errorMessage
-                </div>
-            }
-
-            <div class="form-header p-3 rounded-top">
-                <h1 class="text-center m-0">Crear Usuario</h1>
-            </div>
-
-            <div class="p-4">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <InputText @bind-Value="usAux.Nombre" class="form-control borde-personalizado text-dark" />
-                    <ValidationMessage For="@(() => usAux.Nombre)" />
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">Modificar Usuario</h5>
+                    <button type="button" class="btn-close" @onclick="Cerrar"></button>
                 </div>
 
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <InputText @bind-Value="usAux.Apellido" class="form-control borde-personalizado text-dark" />
-                    <ValidationMessage For="@(() => usAux.Apellido)" />
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <InputText @bind-Value="usAux.Nombre" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => usAux.Nombre)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido</label>
+                        <InputText @bind-Value="usAux.Apellido" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => usAux.Apellido)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <InputText @bind-Value="usAux.Email" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => usAux.Email)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <InputText type="password" @bind-Value="usAux.HashPassword" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => usAux.HashPassword)" />
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo electrónico</label>
-                    <InputText @bind-Value="usAux.Email" class="form-control borde-personalizado text-dark" />
-                    <ValidationMessage For="@(() => usAux.Email)" />
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-danger" type="button" @onclick="Cerrar">Cancelar</button>
+                    <button class="btn btn-success" type="submit">Guardar</button>
                 </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <InputText type="password" @bind-Value="usAux.HashPassword" class="form-control borde-personalizado text-dark" />
-                    <ValidationMessage For="@(() => usAux.HashPassword)" />
-                </div>
-            </div>
-            <!-- Footer con botones alineados -->
-            
-            <div class="form-footer bg-footer d-flex gap-2 justify-content-end p-3 rounded-bottom">
-                <button type="submit" class="btn btn-success">  Aceptar  </button>
-                <button type="button" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
-            </div>
-            
-        </EditForm>
+            </EditForm>
+        </div>
     </div>
 </div>
-
 
 <style>
    .formulario-wrapper {
@@ -98,70 +81,38 @@
 /* Header del formulario */
 .form-header {
     background-color: #478689;
+    color: white;
 }
 
 /* Footer de botones */
 .bg-footer {
     background-color: #478689;
+    color: white;
 }
 </style>
 
-
 @code {
+    [Parameter] public Usuario usAux { get; set; } = new();
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public bool Mostrar { get; set; }
 
-    [Parameter]
-    public int id { get; set; }
     private string? errorMessage;
-    private bool success;
-    private Usuario usAux = new Usuario();
-    private Usuario? user;
-    private bool primerRender = true;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnParametersSet()
     {
-        try
-        {
-            if (primerRender)
-            {
-                await Task.Delay(10);
-                primerRender = false;
-
-                var user = Login.GetUser();
-
-                if (user == null)
-                {
-                    Navigation.NavigateTo("/", true);
-                    return;
-                }
-
-                var usuarioDB = usuarioBuscarId.Ejecutar(id);
-
-                usAux.Id = usuarioDB.Id;
-                usAux.Nombre = usuarioDB.Nombre;
-                usAux.Apellido = usuarioDB.Apellido;
-                usAux.Email = usuarioDB.Email;
-                StateHasChanged();
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = ex.Message;
-        }
-        
+        if (usAux == null)
+            usAux = new Usuario();
     }
 
-    private void Cancelar() => Navigation.NavigateTo("/");
     private async Task HandleSubmit()
     {
-        success = false;
         errorMessage = null;
-
         try
         {
-            user = Login.GetUser();
+            var user = Login.GetUser();
             if (user == null)
             {
-                Navigation.NavigateTo("/");
+                Navigation.NavigateTo("/", true);
                 return;
             }
 
@@ -171,10 +122,8 @@
                 return;
             }
 
-            Modificar.Ejecutar(usAux,user.Id);
-            success = true;
-            await Task.Delay(1000);
-            Navigation.NavigateTo("/usuario-listar");
+            Modificar.Ejecutar(usAux, user.Id);
+            await Cerrar();
         }
         catch (Exception ex)
         {
@@ -182,5 +131,8 @@
         }
     }
 
-
+    private async Task Cerrar()
+    {
+        await OnClose.InvokeAsync();
+    }
 }

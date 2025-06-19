@@ -1,8 +1,10 @@
 @page "/usuario-listar"
 @rendermode InteractiveServer
 @using CentroEventos.Aplicacion
+@using CentroEventos.UI.Components.Pages.Modificar
 @inject UsuarioListarUseCase Listar
 @inject ServicioAutorizacion ServicioAutorizacion
+@inject UsuarioBuscarIdUseCase UsuarioBuscarId
 
 @using CentroEventos.Aplicacion.Enums
 @inject ServicioLogin Login
@@ -35,7 +37,7 @@
                         <td>@usuario.Apellido</td>
                         <td>@usuario.Email</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(usuario.Id)">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModal(usuario.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(usuario)">
@@ -48,19 +50,25 @@
         </table>
     </div>
 </div>
+
+@if (mostrarModal && usuarioSeleccionado != null)
+{
+    <UsuarioModificar Mostrar="@mostrarModal" usAux="@usuarioSeleccionado" OnClose="@CerrarModal" />
+}
+
 @if (mostrarModalEliminar && usuarioSeleccionado != null)
 {
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
         <div class="modal-dialog">
-            <div class="modal-content text-dark">
-                <div class="modal-header">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
                     <h5 class="modal-title">Confirmar eliminación</h5>
                     <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-white">
                     <p>¿Estás seguro que querés eliminar a <strong>@usuarioSeleccionado.Nombre</strong>?</p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
                     <button class="btn btn-danger" @onclick="ConfirmarEliminar">Eliminar</button>
                 </div>
@@ -83,12 +91,45 @@
     color: white ;
 }
 
+   .formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
 
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29 ;
+    border-radius: 12px;
+}
+
+/* Header del formulario */
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+/* Footer de botones */
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
 </style>
 
 @code {
     private List<Usuario> usuarios = new();
     private bool mostrarModalEliminar = false;
+
+    private bool mostrarModal = false;
     private Usuario? usuarioSeleccionado;
 
     private bool primerRender = true;
@@ -113,11 +154,6 @@
         }
     }
 
-    private void Modificar(int id)
-    {
-        Navigation.NavigateTo($"/usuario-modificar/{id}");
-    }
-    
     private void AbrirModalEliminar(Usuario usuario)
     {
         usuarioSeleccionado = usuario;
@@ -137,7 +173,6 @@
             var user = Login.GetUser();
             if (usuarioSeleccionado != null)
             {
-                // Suponiendo que tenés un caso de uso llamado EliminarUsuario
                 UsuarioBaja.Ejecutar(usuarioSeleccionado.Id, user.Id);
                 usuarios.RemoveAll(u => u.Id == usuarioSeleccionado.Id);
             }
@@ -151,5 +186,26 @@
             mostrarModalEliminar = false;
             usuarioSeleccionado = null;
         }
+    }
+
+    private void AbrirModal(int id)
+    {
+        var usuario = UsuarioBuscarId.Ejecutar(id);
+        usuarioSeleccionado = new Usuario
+        {
+            Id = usuario.Id,
+            Nombre = usuario.Nombre,
+            Apellido = usuario.Apellido,
+            Email = usuario.Email,
+            HashPassword = string.Empty
+        };
+        mostrarModal = true;
+    }
+
+    private Task CerrarModal()
+    {
+        mostrarModal = false;
+        usuarios = Listar.Ejecutar();
+        return Task.CompletedTask;
     }
 }

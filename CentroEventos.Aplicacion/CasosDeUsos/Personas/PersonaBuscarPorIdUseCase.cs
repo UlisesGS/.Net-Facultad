@@ -8,7 +8,7 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Personas
     {
         private readonly IPersonaRepositorio _repositorioPersona = repoPersona;
 
-        public Persona? Ejecutar(int id)
+        public Persona Ejecutar(int id)
         {
             return _repositorioPersona.BuscarPorId(id) ?? throw new EntidadNotFoundException("ERROR - Persona no encontrada.");
         }
