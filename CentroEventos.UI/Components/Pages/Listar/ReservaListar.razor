@@ -3,16 +3,30 @@
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion.CasosDeUsos.Reservas
 @using CentroEventos.Aplicacion
+@using CentroEventos.UI.Components.Pages.Crear
+@using CentroEventos.Aplicacion.Enums
 @inject NavigationManager Navigation
 @inject ReservaListarUseCase Listar
+@inject ReservaBuscarPorIdUseCase BuscarId
+@inject ReservaBajaUseCase Baja
 @inject ServicioLogin Login
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Reservas</h4>
+        @if(!permisoAlta)
+        {
+            <button type="button" class="btn btn-success mt-2" disabled>
+                <i class="bi bi-plus-circle me-1"></i> Crear Reserva
+            </button>
+        } 
+        else
+        {
+            <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
+                <i class="bi bi-plus-circle me-1"></i> Crear Reserva
+            </button>
+        }
     </div>
-
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead class="thead-custom">
@@ -35,12 +49,32 @@
                         <td>@reserva.FechaAltaReserva</td>
                         <td>@reserva.EstadoAsistencia</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(reserva.Id)">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(reserva.Id)">
-                                <i class="bi bi-archive"></i>
-                            </button>
+                            
+                            @if(!permisoModificar)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" disabled>
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(reserva.Id)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            }
+                            @if(!permisoBaja)
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" disabled>
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(reserva)">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            }
+
                         </td>
                     </tr>
                 }
@@ -48,6 +82,37 @@
         </table>
     </div>
 </div>
+
+@if (mostrarModalCrear)
+{
+    <ReservaCrear Mostrar="@mostrarModalCrear" OnClose="CerrarModalCrear" />
+}
+
+@if (mostrarModalModificar && reservaSeleccionada != null)
+{
+    <ReservaCrear Mostrar="@mostrarModalModificar" reservaAux="@reservaSeleccionada" OnClose="CerrarModalModificar" />
+}
+
+@if (mostrarModalEliminar && reservaSeleccionada != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
+                </div>
+                <div class="modal-body text-white">
+                    <p>¿Estás seguro que querés eliminar la Reserva?</p>
+                </div>
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="ConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <style>
 .bg-personas-header {
@@ -62,19 +127,56 @@
     background-color: #478689 ;
     color: white ;
 }
+using CentroEventos.Aplicacion.Enums;
+#line default
+formulario-wrapper {
+    max-width: 600px;
+    width: 100%;
+}
 
+.formulario-con-borde {
+    background: linear-gradient(to bottom, #1c2a29, #305861);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
 
+.formulario-con-borde .form-label {
+    color: white;
+}
+
+.borde-personalizado {
+    border: 2px solid #1c2a29 ;
+    border-radius: 12px;
+}
+
+/* Header del formulario */
+.form-header {
+    background-color: #478689;
+    color: white;
+}
+
+/* Footer de botones */
+.bg-footer {
+    background-color: #478689;
+    color: white;
+}
 </style>
 
 @code {
-
     private List<Reserva> reservas = new();
-
+    private Reserva? reservaSeleccionada;
+    private int idLog = 0;
+    private bool mostrarModalCrear = false;
+    private bool mostrarModalModificar = false;
+    private bool mostrarModalEliminar = false;
     private bool primerRender = true;
+    private bool permisoAlta = false;
+    private bool permisoBaja = false;
+    private bool permisoModificar = false;
 
     protected override async Task OnAfterRenderAsync(bool Render)
     {
-
         if (primerRender)
         {
             await Task.Delay(10);
@@ -87,25 +189,87 @@
                 Navigation.NavigateTo("/", true);
                 return;
             }
+            idLog = user.Id;
+            foreach(EnumPermiso enumPermiso in user.Permisos)
+            {
+                if(enumPermiso == EnumPermiso.PersonaAlta)
+                {
+                    permisoAlta = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaBaja)
+                {
+                    permisoBaja = true;
+                }
+                else if(enumPermiso == EnumPermiso.PersonaModificacion)
+                {
+                    permisoModificar = true;
+                }
+            }
 
             reservas = Listar.Ejecutar();
             StateHasChanged();
         }
-    
     }
-    private void crear()
+
+    private void AbrirModalModificar(int id)
     {
-        Navigation.NavigateTo("/evento-crear");
+        var p = BuscarId.Ejecutar(id);
+        reservaSeleccionada = new Reserva
+        {
+            Id = p!.Id,
+            PersonaId = p.PersonaId,
+            EventoDeportivoId = p.EventoDeportivoId,
+            FechaAltaReserva = p.FechaAltaReserva,
+            EstadoAsistencia = p.EstadoAsistencia
+        };
+        mostrarModalModificar = true;
     }
 
-    private void Modificar(int id)
+    private void AbrirModalEliminar(Reserva reserva)
     {
-        Navigation.NavigateTo($"/evento-modificar/{id}");
+        reservaSeleccionada = reserva;
+        mostrarModalEliminar = true;
     }
 
-    private void Eliminar(int id)
+    private void CancelarEliminar()
     {
-
+        mostrarModalEliminar = false;
+        reservaSeleccionada = null;
     }
 
+    private void ConfirmarEliminar()
+    {
+        try
+        {
+            var user = Login.GetUser();
+            if (reservaSeleccionada != null)
+            {
+                Baja.Ejecutar(reservaSeleccionada.Id, user.Id);
+                reservas.RemoveAll(p => p.Id == reservaSeleccionada.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        finally
+        {
+            mostrarModalEliminar = false;
+            reservaSeleccionada = null;
+        }
+    }
+
+    private Task CerrarModalCrear()
+    {
+        mostrarModalCrear = false;
+        reservas = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
+
+    private Task CerrarModalModificar()
+    {
+        mostrarModalModificar = false;
+        reservas = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
 }

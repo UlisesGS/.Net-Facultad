@@ -27,12 +27,13 @@ namespace CentroEventos.Aplicacion.CasosDeUsos.Reservas
             }
 
             if (!_validadorReserva.Validar(reserva, out string mensajeError))
-                {
-                    throw new ValidacionException(mensajeError);
-                }
+            {
+                throw new ValidacionException(mensajeError);
+            }
 
+            reserva.EstadoAsistencia = EnumEstadoAsistencia.pendiente;
+            reserva.FechaAltaReserva = DateTime.Now;
             _repositorioReserva.Agregar(reserva);
-
         }
 
     }

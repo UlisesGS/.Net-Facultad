@@ -56,8 +56,17 @@ namespace CentroEventos.Repositorios.repos
 
         public void Modificar(Reserva reserva)
         {
-            db.Reservas.Update(reserva);
-            db.SaveChanges();
+            var original = db.Reservas.Find(reserva.Id);
+
+            if (original != null)
+            {
+                original.PersonaId = reserva.PersonaId;
+                original.EventoDeportivoId = reserva.EventoDeportivoId;
+                original.FechaAltaReserva = reserva.FechaAltaReserva;
+                original.EstadoAsistencia = reserva.EstadoAsistencia;
+
+                db.SaveChanges();
+            }
         }
 
         public int QuantityCupo(int idEventoDeportivo)
