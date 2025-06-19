@@ -54,8 +54,8 @@ builder.Services.AddScoped<PersonaModificacionUseCase>();
 builder.Services.AddScoped<EventoDeportivoBajaUseCase>();
 builder.Services.AddScoped<EventoDeportivoAltaUseCase>();
 builder.Services.AddScoped<EventoDeportivoListarUseCase>();
+builder.Services.AddScoped<EventoDeportivoBuscarPorIdUseCase>();
 builder.Services.AddScoped<EventoDeportivoModificacionUseCase>();
-
 
 // Reservas
 builder.Services.AddScoped<ReservaBajaUseCase>();

@@ -4,15 +4,20 @@
 @using CentroEventos.Aplicacion
 @using CentroEventos.Aplicacion.Entidades
 @using CentroEventos.Aplicacion.CasosDeUsos.Evento
+@using CentroEventos.UI.Components.Pages.Crear
 @inject ServicioLogin Login
+@inject EventoDeportivoBuscarPorIdUseCase BuscarId
 @inject EventoDeportivoListarUseCase Listar
+@inject EventoDeportivoBajaUseCase Baja
 @inject NavigationManager Navigation
 
 <div class="bg-personas-header rounded p-3">
     <div class="d-flex align-items-start flex-column flex-md-row gap-3 mb-3">
         <h4 class="m-0 text-white p-2">Listado de Eventos</h4>
+        <button type="button" class="btn btn-success mt-2" @onclick="() => mostrarModalCrear = true">
+            <i class="bi bi-plus-circle me-1"></i> Crear Evento
+        </button>
     </div>
-
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -40,10 +45,10 @@
                         <td>@evento.Nombre</td>
                         <td>@evento.Descripcion</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => Modificar(evento.Id)">
+                            <button type="button" class="btn btn-primary btn-sm me-1" @onclick="() => AbrirModalModificar(evento.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => Modificar(evento.Id)">
+                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => AbrirModalEliminar(evento)">
                                 <i class="bi bi-archive"></i>
                             </button>
                         </td>
@@ -53,6 +58,37 @@
         </table>
     </div>
 </div>
+
+@if (mostrarModalCrear)
+{
+    <EventoCrear Mostrar="@mostrarModalCrear" OnClose="CerrarModalCrear" />
+}
+
+@if (mostrarModalModificar && eventoSeleccionado != null)
+{
+    <EventoCrear Mostrar="@mostrarModalModificar" eventoAux="@eventoSeleccionado" OnClose="CerrarModalModificar" />
+}
+
+@if (mostrarModalEliminar && eventoSeleccionado != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
+                <div class="modal-header form-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEliminar"></button>
+                </div>
+                <div class="modal-body text-white">
+                    <p>¿Estás seguro que querés eliminar a <strong>@eventoSeleccionado.Nombre</strong>?</p>
+                </div>
+                <div class="modal-footer bg-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="ConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <style>
 .bg-personas-header {
@@ -74,7 +110,10 @@
 @code {
 
     private List<EventoDeportivo> eventos = new();
-
+    private EventoDeportivo? eventoSeleccionado;
+    private bool mostrarModalCrear = false;
+    private bool mostrarModalModificar = false;
+    private bool mostrarModalEliminar = false;
     private bool primerRender = true;
 
     protected override async Task OnAfterRenderAsync(bool Render)
@@ -98,19 +137,70 @@
         }
     
     }
-    private void crear()
+    
+    private void AbrirModalModificar(int id)
     {
-        Navigation.NavigateTo("/evento-crear");
+        var e = BuscarId.Ejecutar(id);
+        eventoSeleccionado = new EventoDeportivo
+        {
+            Id = e.Id,
+            ResponsableId = e.ResponsableId,
+            CupoMaximo = e.CupoMaximo,
+            FechaHoraInicio = e.FechaHoraInicio,
+            DuracionHoras = e.DuracionHoras,
+            Nombre = e.Nombre,
+            Descripcion = e.Descripcion
+        };
+        mostrarModalModificar = true;
     }
 
-    private void Modificar(int id)
+    private void AbrirModalEliminar(EventoDeportivo evento)
     {
-        Navigation.NavigateTo($"/evento-modificar/{id}");
+        eventoSeleccionado = evento;
+        mostrarModalEliminar = true;
     }
 
-    private void Eliminar(int id)
+    private void CancelarEliminar()
     {
-
+        mostrarModalEliminar = false;
+        eventoSeleccionado = null;
     }
+
+    private void ConfirmarEliminar()
+    {
+        try
+        {
+            var user = Login.GetUser();
+            if (eventoSeleccionado != null)
+            {
+                Baja.Ejecutar(eventoSeleccionado.Id, user.Id);
+                eventos.RemoveAll(p => p.Id == eventoSeleccionado.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        finally
+        {
+            mostrarModalEliminar = false;
+            eventoSeleccionado = null;
+        }
+    }
+
+    private Task CerrarModalCrear()
+    {
+        mostrarModalCrear = false;
+        eventos = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
+
+    private Task CerrarModalModificar()
+    {
+        mostrarModalModificar = false;
+        eventos = Listar.Ejecutar();
+        return Task.CompletedTask;
+    }
+}
 
 }

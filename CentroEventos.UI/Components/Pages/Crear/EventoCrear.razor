@@ -1,10 +1,9 @@
 @using CentroEventos.Aplicacion
 @using CentroEventos.Aplicacion.Entidades
-@using CentroEventos.Aplicacion.CasosDeUsos.Personas
+@using CentroEventos.Aplicacion.CasosDeUsos.Evento
 @using CentroEventos.Aplicacion.Enums
-
-@inject PersonaAltaUseCase Alta
-@inject PersonaModificacionUseCase Modificar
+@inject EventoDeportivoAltaUseCase Alta
+@inject EventoDeportivoModificacionUseCase Modificar
 @inject ServicioLogin ServicioLogin
 @inject ServicioAutorizacion ServicioAutorizacion
 @inject NavigationManager Navigation
@@ -14,11 +13,11 @@
 <div class="modal fade @(Mostrar ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog">
         <div class="modal-content formulario-wrapper formulario-con-borde text-dark">
-            <EditForm Model="@personaAux" OnValidSubmit="HandleSubmit">
+            <EditForm Model="@eventoAux" OnValidSubmit="HandleSubmit">
                 <DataAnnotationsValidator />
 
                 <div class="modal-header form-header">
-                    <h5 class="modal-title">@(personaAux!.Id == 0 ? "Crear Persona" : "Modificar Persona")</h5>
+                    <h5 class="modal-title">@(eventoAux!.Id == 0 ? "Crear Persona" : "Modificar Persona")</h5>
                     <button type="button" class="btn-close" @onclick="Cerrar"></button>
                 </div>
 
@@ -29,36 +28,41 @@
                     }
 
                     <div class="mb-3">
-                        <label class="form-label">DNI</label>
-                        <InputNumber @bind-Value="personaAux.DNI" class="form-control borde-personalizado" />
-                        <ValidationMessage For="@(() => personaAux.DNI)" />
+                        <label class="form-label">ResponsableId</label>
+                        <InputNumber @bind-Value="eventoAux.ResponsableId" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.ResponsableId)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CupoMaximo</label>
+                        <InputNumber @bind-Value="eventoAux.CupoMaximo" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.CupoMaximo)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">FechaHoraInicio</label>
+                        <InputNumber @bind-Value="eventoAux.FechaHoraInicio" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.FechaHoraInicio)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">DuracionHoras</label>
+                        <InputNumber @bind-Value="eventoAux.DuracionHoras" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.DuracionHoras)" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>
-                        <InputText @bind-Value="personaAux.Nombre" class="form-control borde-personalizado" />
-                        <ValidationMessage For="@(() => personaAux.Nombre)" />
+                        <InputText @bind-Value="eventoAux.Nombre" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.Nombre)" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Apellido</label>
-                        <InputText @bind-Value="personaAux.Apellido" class="form-control borde-personalizado" />
-                        <ValidationMessage For="@(() => personaAux.Apellido)" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <InputText @bind-Value="personaAux.Email" class="form-control borde-personalizado" />
-                        <ValidationMessage For="@(() => personaAux.Email)" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <InputNumber @bind-Value="personaAux.Telefono" class="form-control borde-personalizado" />
-                        <ValidationMessage For="@(() => personaAux.Telefono)" />
+                        <label class="form-label">Descripcion</label>
+                        <InputText @bind-Value="eventoAux.Descripcion" class="form-control borde-personalizado" />
+                        <ValidationMessage For="@(() => eventoAux.Descripcion)" />
                     </div>
                 </div>
 
                 <div class="modal-footer bg-footer">
                     <button class="btn btn-secondary" type="button" @onclick="Cerrar">Cancelar</button>
                     <button class="btn btn-success" type="submit">Guardar</button>
-                </div>
+                </div>               
             </EditForm>
         </div>
     </div>
@@ -98,7 +102,7 @@
 </style>
 
 @code {
-    [Parameter] public Persona personaAux { get; set; } = new();
+    [Parameter] public EventoDeportivo eventoAux { get; set; } = new();
     [Parameter] public bool Mostrar { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
 
@@ -117,19 +121,19 @@
                 return;
             }
 
-            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.PersonaAlta))
+            if (!ServicioAutorizacion.PoseeElPermiso(user.Id, EnumPermiso.UsuarioAlta))
             {
                 Navigation.NavigateTo("/no-autorizado");
                 return;
             }
 
-            if (personaAux!.Id == 0)
+            if (eventoAux!.Id == 0)
             {
-                Alta.Ejecutar(personaAux, user.Id);
+                Alta.Ejecutar(eventoAux, user.Id);
             }
             else
             {
-                Modificar.Ejecutar(personaAux, user.Id);
+                Modificar.Ejecutar(eventoAux, user.Id);
             }
 
             await Cerrar();
