@@ -2,9 +2,10 @@ services:
   - type: web
     name: centroeventos-app
     env: dotnet
+    dockerfilePath: null
     plan: free
     region: oregon
-    buildCommand: dotnet publish -c Release -o out
+    buildCommand: dotnet publish ./UI/CentroEventos.UI.csproj -c Release -o out
     startCommand: dotnet out/CentroEventos.UI.dll
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
