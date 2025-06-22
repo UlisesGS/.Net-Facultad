@@ -1,0 +1,55 @@
+# .NET Core
+bin/
+obj/
+out/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+*.dll
+*.exe
+*.app
+*.log
+
+# Visual Studio
+.vscode/
+.vs/
+*.csproj.user
+
+# User-specific files
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Git
+*.orig
+*.rej
+*.bak
+*.tmp
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.yml
+Dockerfile
+.dockerignore
+
+# Logs
+*.log
+
+# OS-specific files
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Publish folder
+/app/publish/
+publish/
+
+# Rider
+.idea/
+
+# Others
+.env
+.env.*
