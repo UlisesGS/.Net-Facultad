@@ -6,10 +6,10 @@ WORKDIR /app
 COPY . .
 
 # Restaurar dependencias
-RUN dotnet restore UI/CentroEventos.UI.csproj
+RUN dotnet restore CentroEventos.UI/CentroEventos.UI.csproj
 
 # Publicar el proyecto en modo Release
-RUN dotnet publish UI/CentroEventos.UI.csproj -c Release -o /app/publish
+RUN dotnet publish CentroEventos.UI/CentroEventos.UI.csproj -c Release -o /app/publish
 
 # Etapa 2: runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
