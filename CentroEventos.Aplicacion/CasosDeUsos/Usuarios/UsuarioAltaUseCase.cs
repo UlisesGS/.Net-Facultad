@@ -19,6 +19,10 @@ namespace CentroEventos.Aplicacion
             {
                 usuario.Permisos = Enum.GetValues<EnumPermiso>().ToList();
             }
+            else
+            {
+                usuario.Permisos.Add(EnumPermiso.UsuarioOtorgarPermiso);
+            }
     
             usuario.HashPassword = Hasheador.Hashear(usuario.HashPassword!);
 

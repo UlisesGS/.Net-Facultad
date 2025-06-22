@@ -39,16 +39,30 @@
                         <td>@usuario.Email</td>
 
                         <td>
-                            @if(!permisoOtorgar)
+                            @if (idLog == idAdmin)
                             {
-                                <button type="button" class="btn btn-warning btn-sm me-1" disabled>
+                                <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
                                     Ver Permisos
                                     <i class="bi  bi-exclamation-circle ms-2"></i>
                                 </button>
                             }
-                            else
+                            else if(permisoOtorgar && usuario.Id != idAdmin)
                             {
                                 <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
+                                    Ver Permisos
+                                    <i class="bi  bi-exclamation-circle ms-2"></i>
+                                </button>
+                            }
+                            else if(!permisoOtorgar && usuario.Id == idLog)
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" @onclick="() => AbrirModalPermisos(usuario.Id)">
+                                    Ver Permisos
+                                    <i class="bi  bi-exclamation-circle ms-2"></i>
+                                </button>
+                            }
+                            else 
+                            {
+                                <button type="button" class="btn btn-warning btn-sm me-1" disabled>
                                     Ver Permisos
                                     <i class="bi  bi-exclamation-circle ms-2"></i>
                                 </button>

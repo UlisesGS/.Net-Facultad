@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "ndZn7e0imLx8veyYpVwlVJlQyUjCayUGex7YK1YRMbM=",
+  "Source": "CentroEventos.UI",
+  "BasePath": "_content/CentroEventos.UI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CentroEventos.UI\\wwwroot",
+      "Source": "CentroEventos.UI",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "BasePath": "_content/CentroEventos.UI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\app.css",
+      "SourceId": "CentroEventos.UI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "BasePath": "_content/CentroEventos.UI",
+      "RelativePath": "app.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.css"
+    },
+    {
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "SourceId": "CentroEventos.UI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "BasePath": "_content/CentroEventos.UI",
+      "RelativePath": "bootstrap/bootstrap.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Identity": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\favicon.png",
+      "SourceId": "CentroEventos.UI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ulise\\OneDrive\\Escritorio\\Facu\\Flores_Gadea_Trabajo1\\Flores_Gadea_TrabajoFinal\\.Net-Facultad\\CentroEventos.UI\\wwwroot\\",
+      "BasePath": "_content/CentroEventos.UI",
+      "RelativePath": "favicon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\favicon.png"
+    }
+  ]
+}
